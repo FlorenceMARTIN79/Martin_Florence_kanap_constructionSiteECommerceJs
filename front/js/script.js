@@ -46,7 +46,6 @@ fetch("http://localhost:3000/api/products")
         function creationDomNameIndex () {
             //Creation of a h3 in the card
             const cardTitle = document.createElement("h3");
-            cardTitle.innerHTML = kanapName;
             document.querySelector("a > article").appendChild(cardTitle);
             cardTitle.setAttribute("class", kanapName);
             cardTitle.setAttribute("id", "Nom");
@@ -55,7 +54,6 @@ fetch("http://localhost:3000/api/products")
         function creationDomDescriptionIndex () {
              //Creation of p in the card
              const cardDescription = document.createElement("p");
-             cardDescription.innerHTML = kanapDescription;
              document.querySelector("a > article").appendChild(cardDescription);
              cardDescription.setAttribute("class", "productDescription");
              cardDescription.setAttribute("id", "description");
@@ -66,9 +64,18 @@ fetch("http://localhost:3000/api/products")
             creationDomAIndex (i);
         }
 
-        for (let i = 0; i < sofas.length; i++) {
+        const numberOfA = sofas.length;
+
+        /*for (let i = 0; i < numberOfA; i++) {
+        creationDomArticleIndex (i);
+        }*/
+
+        /*for (let i = 0; i < sofas.length; i++) {
             creationDomArticleIndex (i);
-        }
+        }*/
+        creationDomArticleIndex (1);
+        creationDomArticleIndex (1);
+        creationDomArticleIndex (1);
 
     })
     //Error message when the API has not been reached 
