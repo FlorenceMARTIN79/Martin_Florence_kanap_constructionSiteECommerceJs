@@ -17,6 +17,7 @@ function apiRecovery() {
             console.table(sofas);
             console.log(sofas[1]);
             console.log(sofas.length);
+            console.log(sofas[1]._id);
 
 
             /*Pour chaque objet du tableau on créé une carte DOM
@@ -35,12 +36,14 @@ function apiRecovery() {
                 //Creation of an img in the card
                 const cardImg = document.createElement("img");
                 //cardImg.setAttribute("src", kanapImg);
-                cardImg.setAttribute("alt", "photo of the sofa");
+                cardImg.setAttribute("alt", sofas[i].altTxt);
                 cardImg.setAttribute("src", kanapImg);
+                console.log(cardImg);
                 //Creation of a h3 in the card
                 const cardTitle = document.createElement("h3");
                 //cardTitle.setAttribute("class", kanapName);
-                cardTitle.setAttribute("id", "Nom" + [i]);
+                cardTitle.setAttribute("id", sofas[i]._id);
+                console.log(cardTitle);
                 cardTitle.textContent = kanapName;
                 //Creation of p in the card
                 const cardDescription = document.createElement("p");
