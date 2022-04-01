@@ -4,7 +4,7 @@
 }*/
 
 
-/*appel des éléments de l'API sur port3000*/
+/*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products")
         .then(function (res) {
@@ -13,29 +13,26 @@ function apiRecovery() {
             }
         })
         .then(function (sofas) {
-            /*affichage des données récupérées de l'API en tableau*/
+            /*display of the datas from the API in a table*/
             console.table(sofas);
             console.log(sofas[1]);
             console.log(sofas.length);
             console.log(sofas[1]._id);
 
 
-            /*Pour chaque objet du tableau on créé une carte DOM
-            Une carte contient le nom, l'image et la description de l'objet*/
-
+            /*Creation of a loop to create as many elements in the DOM as sofas*/
             for (let i = 0; i < sofas.length; i++) {
                 var kanapName = sofas[i].name;
                 var kanapDescription = sofas[i].description;
                 var kanapImg = sofas[i].imageUrl;
-                //creationDomElementsIndex (i);
                 //Creation of an a tag in the items section
                 const card = document.createElement("a");
-                card.setAttribute("href", "product.html");
+                card.setAttribute("href", "product.html?id=" + sofas[i]._id);
+                console.log(card);
                 //Creation of an article in the card
                 const cardArticle = document.createElement("article");
                 //Creation of an img in the card
                 const cardImg = document.createElement("img");
-                //cardImg.setAttribute("src", kanapImg);
                 cardImg.setAttribute("alt", sofas[i].altTxt);
                 cardImg.setAttribute("src", kanapImg);
                 console.log(cardImg);
