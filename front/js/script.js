@@ -1,9 +1,3 @@
-//Functions creating the DOM elements needed for the index page
-/*function creationDomElementsIndex() {
-    
-}*/
-
-
 /*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products")
@@ -22,9 +16,9 @@ function apiRecovery() {
 
             /*Creation of a loop to create as many elements in the DOM as sofas*/
             for (let i = 0; i < sofas.length; i++) {
-                var kanapName = sofas[i].name;
-                var kanapDescription = sofas[i].description;
-                var kanapImg = sofas[i].imageUrl;
+                let kanapName = sofas[i].name;
+                let kanapDescription = sofas[i].description;
+                let kanapImg = sofas[i].imageUrl;
                 //Creation of an a tag in the items section
                 const card = document.createElement("a");
                 card.setAttribute("href", "product.html?id=" + sofas[i]._id);
