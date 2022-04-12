@@ -9,6 +9,7 @@ console.log(productId);
 //creation of js elements corresponding to html elements
 selectColor = document.querySelector("#colors");
 enterQuantity = document.querySelector("#quantity");
+addItem = document.querySelector("#addToCart");
 
 /*API call on 3000 port*/
 function apiRecovery() {
@@ -48,32 +49,61 @@ function apiRecovery() {
             }
            
             //Creation of the cart containing the selected sofa(s)
-            class ShoppedSofa {
-                constructor(id, color, quantity) {
-                    this.id = id;
-                    this.color = color;
-                    this.quantity = quantity;
-                }
-            }
+            
+            selectColor.addEventListener("change", function () { 
+                
+                enterQuantity.addEventListener("change", function() {
 
-            let firstShoppedSofa = new ShoppedSofa ("TEST", "arcenciel", 20)
+                let newShoppedSofa = {
+                    shoppedSofaId : productId,
+                    shoppedSofaColor : selectColor.options[selectColor.selectedIndex].value,
+                    shoppedSofaQuantity : enterQuantity.value,
+                }
+
+                addItem.addEventListener("click", function () {
+                    let shoppedSofas = [];
+                    //creation of a loop listineng click on cart to add items
+            //Si on clique sur le panier
+            //Et si une couleur est renseignée
+            //Et si une quantité est renseignée entre 1 et 100
+            //Alors on l'ajoute au panier dans le local storage, sinon message
+
+                    
+                    if (newShoppedSofa.shoppedSofaColor != null) {
+                        shoppedSofas.push(newShoppedSofa);
+                    console.table(newShoppedSofa);
+                    } else {
+                        console.log("Please enter a color");
+                    }       
+            
+                });
+                
+
+            });
+        });
+
+            
+
+            
+            
+
 
             //Listen of the click event with action setting off
-            selectColor.addEventListener("change", function () {
+            /*selectColor.addEventListener("change", function () {
 
                 enterQuantity.addEventListener("change", function() {
                     console.log(enterQuantity.value);
 
                     let newShoppedSofa = new ShoppedSofa( productId, selectColor.options[selectColor.selectedIndex].value, enterQuantity.value)
                 
-                let shoppedSofas = [];        
-                shoppedSofas.push(firstShoppedSofa, newShoppedSofa);
+                    let shoppedSofas = [];        
+                    shoppedSofas.push(firstShoppedSofa, newShoppedSofa);
             
                 console.table(shoppedSofas);
                 });
 
-                
-            });
+               
+            });*/
         
         })
         //Error message when the API has not been reached 
@@ -83,3 +113,5 @@ function apiRecovery() {
 }
 
 apiRecovery();
+
+//dans le localStorage il faudra surement utilier une conditiond de type switch pour vérifier dans le tableau si le canapé est déjà présent ou non
