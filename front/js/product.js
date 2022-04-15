@@ -7,9 +7,9 @@ let productId = url.searchParams.get("id");
 console.log(productId);
 
 //creation of js elements corresponding to html elements
-selectColor = document.querySelector("#colors");
-enterQuantity = document.querySelector("#quantity");
-addItem = document.querySelector("#addToCart");
+let selectColor = document.querySelector("#colors");
+let enterQuantity = document.querySelector("#quantity");
+let addItem = document.querySelector("#addToCart");
 
 /*API call on 3000 port*/
 function apiRecovery() {
@@ -50,38 +50,37 @@ function apiRecovery() {
 
             //Creation of the cart containing the selected sofa(s)
 
-            
+            addItem.addEventListener("click", function () {
 
-            //selectColor.addEventListener("change", function () {
+                let newShoppedSofa = {
+                    shoppedSofaId: productId,
+                    shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
+                    shoppedSofaQuantity: enterQuantity.value,
+                }
 
-                //enterQuantity.addEventListener("change", function () {
+                let shoppedSofas = [];
 
-                    addItem.addEventListener("click", function () {
+                console.log(newShoppedSofa.shoppedSofaColor);
 
-                        let newShoppedSofa = {
-                            shoppedSofaId: productId,
-                            shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
-                            shoppedSofaQuantity: enterQuantity.value,
-                        }
-            
-                        let shoppedSofas = [];
-
-                        console.log(newShoppedSofa.shoppedSofaColor);
-
-                        if (newShoppedSofa.shoppedSofaColor != "") {
-                            shoppedSofas.push(newShoppedSofa);
-                            console.table(newShoppedSofa);
-                        } else {
-                            console.log("Please enter a color");
-                        }
+                //variables helping to control the correct filling of the options (quantity and color)
+                let colorControl = newShoppedSofa.shoppedSofaColor != "";
+                let quantityControl = newShoppedSofa.shoppedSofaQuantity > 0 && newShoppedSofa.shoppedSofaQuantity < 101;
 
 
-                    //});
-
-                //});
+                //condition controlling the adding of the sofa in the array
+                if (colorControl && quantityControl) {
+                    shoppedSofas.push(newShoppedSofa);
+                    console.table(newShoppedSofa);
+                } else  if (colorControl) {
+                    console.log("Please enter a quantity between 1 and 100");
+                } else if (quantityControl) {
+                    console.log("Please enter a color");
+                } else {
+                    console.log("Please enter a color and a quantity");
+                }
             });
 
-            
+
 
 
         })
