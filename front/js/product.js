@@ -47,64 +47,43 @@ function apiRecovery() {
                 document.getElementById("colors").appendChild(colorOption);
 
             }
-           
+
             //Creation of the cart containing the selected sofa(s)
+
             
-            selectColor.addEventListener("change", function () { 
-                
-                enterQuantity.addEventListener("change", function() {
 
-                let newShoppedSofa = {
-                    shoppedSofaId : productId,
-                    shoppedSofaColor : selectColor.options[selectColor.selectedIndex].value,
-                    shoppedSofaQuantity : enterQuantity.value,
-                }
+            //selectColor.addEventListener("change", function () {
 
-                addItem.addEventListener("click", function () {
-                    let shoppedSofas = [];
-                    //creation of a loop listineng click on cart to add items
-            //Si on clique sur le panier
-            //Et si une couleur est renseignée
-            //Et si une quantité est renseignée entre 1 et 100
-            //Alors on l'ajoute au panier dans le local storage, sinon message
+                //enterQuantity.addEventListener("change", function () {
 
-                    
-                    if (newShoppedSofa.shoppedSofaColor != null) {
-                        shoppedSofas.push(newShoppedSofa);
-                    console.table(newShoppedSofa);
-                    } else {
-                        console.log("Please enter a color");
-                    }       
+                    addItem.addEventListener("click", function () {
+
+                        let newShoppedSofa = {
+                            shoppedSofaId: productId,
+                            shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
+                            shoppedSofaQuantity: enterQuantity.value,
+                        }
             
-                });
-                
+                        let shoppedSofas = [];
 
+                        console.log(newShoppedSofa.shoppedSofaColor);
+
+                        if (newShoppedSofa.shoppedSofaColor != "") {
+                            shoppedSofas.push(newShoppedSofa);
+                            console.table(newShoppedSofa);
+                        } else {
+                            console.log("Please enter a color");
+                        }
+
+
+                    //});
+
+                //});
             });
-        });
 
             
 
-            
-            
 
-
-            //Listen of the click event with action setting off
-            /*selectColor.addEventListener("change", function () {
-
-                enterQuantity.addEventListener("change", function() {
-                    console.log(enterQuantity.value);
-
-                    let newShoppedSofa = new ShoppedSofa( productId, selectColor.options[selectColor.selectedIndex].value, enterQuantity.value)
-                
-                    let shoppedSofas = [];        
-                    shoppedSofas.push(firstShoppedSofa, newShoppedSofa);
-            
-                console.table(shoppedSofas);
-                });
-
-               
-            });*/
-        
         })
         //Error message when the API has not been reached 
         .catch(function (err) {
