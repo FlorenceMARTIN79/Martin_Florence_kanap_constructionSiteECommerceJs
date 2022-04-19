@@ -13,14 +13,9 @@ let addItem = document.querySelector("#addToCart");
 
 //creation of an element allowing alert message display when quantity or color is lacking to validate the cart
 const cartAlert = document.createElement("span");
-            cartAlert.textContent = "TEST";
-            document.querySelector(".item__content__addButton").appendChild(cartAlert);
-cartAlert.style.color = "white";
-cartAlert.style.padding = "1.5em";
-cartAlert.style.fontWeight = "bolder";
-cartAlert.style.backgroundColor = "red";
+document.querySelector(".item__content__addButton").appendChild(cartAlert);
 
-            
+
 /*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products/" + productId)
@@ -58,7 +53,7 @@ function apiRecovery() {
 
             }
 
-            
+
             //Creation of the cart containing the selected sofa(s)
 
             addItem.addEventListener("click", function () {
@@ -76,18 +71,27 @@ function apiRecovery() {
                 //variables helping to control the correct filling of the options (quantity and color)
                 let colorControl = newShoppedSofa.shoppedSofaColor != "";
                 let quantityControl = newShoppedSofa.shoppedSofaQuantity > 0 && newShoppedSofa.shoppedSofaQuantity < 101;
-               
+
 
                 //condition controlling the adding of the sofa in the array
                 if (colorControl && quantityControl) {
                     shoppedSofas.push(newShoppedSofa);
                     console.table(newShoppedSofa);
-                } else  if (colorControl) {
-                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une quantité comprise entre 1 et 100";                    
+                } else if (colorControl) {
+                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une quantité comprise entre 1 et 100";
+                    cartAlertStyle;
                 } else if (quantityControl) {
-                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une couleur dans la liste déroulante"; 
+                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une couleur dans la liste déroulante";
+                    cartAlert.style.color = "white";
+                    cartAlert.style.padding = "1.5em";
+                    cartAlert.style.fontWeight = "bolder";
+                    cartAlert.style.backgroundColor = "red";
                 } else {
-                    cartAlert.textContent ="La couleur et la quantité ne sont pas renseignées";
+                    cartAlert.textContent = "La couleur et la quantité ne sont pas renseignées";
+                    cartAlert.style.color = "white";
+                    cartAlert.style.padding = "1.5em";
+                    cartAlert.style.fontWeight = "bolder";
+                    cartAlert.style.backgroundColor = "red";
                 }
             });
 
