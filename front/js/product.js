@@ -78,8 +78,9 @@ function apiRecovery() {
                     shoppedSofas.push(newShoppedSofa);
                     console.table(newShoppedSofa);
                 } else if (colorControl) {
-                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une quantité comprise entre 1 et 100";
-                    cartAlertStyle;
+                    /*cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une quantité comprise entre 1 et 100";
+                    cartAlertStyle;*/
+                    alert("Merci de renseigner la quantité")
                 } else if (quantityControl) {
                     cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une couleur dans la liste déroulante";
                     cartAlert.style.color = "white";
