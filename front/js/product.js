@@ -11,10 +11,6 @@ let selectColor = document.querySelector("#colors");
 let enterQuantity = document.querySelector("#quantity");
 let addItem = document.querySelector("#addToCart");
 
-//creation of an element allowing alert message display when quantity or color is lacking to validate the cart
-const cartAlert = document.createElement("span");
-document.querySelector(".item__content__addButton").appendChild(cartAlert);
-
 
 /*API call on 3000 port*/
 function apiRecovery() {
@@ -80,19 +76,11 @@ function apiRecovery() {
                 } else if (colorControl) {
                     /*cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une quantité comprise entre 1 et 100";
                     cartAlertStyle;*/
-                    alert("Merci de renseigner la quantité")
+                    alert("Merci de renseigner la quantité");
                 } else if (quantityControl) {
-                    cartAlert.textContent = "Pour mettre à jour votre panier, merci de sélectionner une couleur dans la liste déroulante";
-                    cartAlert.style.color = "white";
-                    cartAlert.style.padding = "1.5em";
-                    cartAlert.style.fontWeight = "bolder";
-                    cartAlert.style.backgroundColor = "red";
+                    alert("Merci de choisir une couleur");
                 } else {
-                    cartAlert.textContent = "La couleur et la quantité ne sont pas renseignées";
-                    cartAlert.style.color = "white";
-                    cartAlert.style.padding = "1.5em";
-                    cartAlert.style.fontWeight = "bolder";
-                    cartAlert.style.backgroundColor = "red";
+                    alert("Merci de renseigner la couleur et la quantité");
                 }
             });
 
