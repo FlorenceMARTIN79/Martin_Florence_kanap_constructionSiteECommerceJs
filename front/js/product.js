@@ -51,7 +51,7 @@ function apiRecovery() {
 
             addItem.addEventListener("click", function () {
 
-                console.table(shoppedSofas);
+                //console.table(shoppedSofas);
 
                 let newKanap = {
                     shoppedSofaId: productId,
@@ -68,33 +68,33 @@ function apiRecovery() {
                 if (colorControl && quantityControl) {/*si on a bien renseigné une couleur et une quantité*/
 
                     //push of the newKanap if the local storage is empty
-                    let cartArray = localStorage.getItem("cartArray");/*récupération du local storage*/
+                    let /*cartArray*/clicSofa = localStorage.getItem/*("cartArray")*/("clicSofa");/*récupération du local storage*/
 
-                    if (cartArray == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+                    if (/*cartArray*/clicSofa == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
                         shoppedSofas.push(newKanap);
-                        localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                        localStorage.setItem(/*"cartArray"*/JSON.stringify(productId + selectColor.options[selectColor.selectedIndex].value), JSON.stringify(enterQuantity.value));
                         
                     } else {
-                    console.log("Nombre de lignes de cartArray : " + JSON.parse(cartArray).length);
+                    //console.log("Nombre de lignes de clicSofa : " + JSON.parse(clicSofa).length);
 
-                    var newCartArray = JSON.parse(cartArray).filter(function(sofaFilter) {
+                    var newClicSofa = JSON.parse(clicSofa).filter(function(sofaFilter) {
                         return sofaFilter.shoppedSofaId != newKanap.shoppedSofaId;
+
+                    /*ICI ajouter une fonction pour ajouter les quantités de sofas identiquescliqués*/
                         
                     });
 
-                    shoppedSofas.push(newKanap);
-                    localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                    /*shoppedSofas.push(newKanap);
+                    localStorage.setItem("clicSofa", JSON.stringify(shoppedSofas));
 
-                    /*ICI incrémenter la quantité du canapé existant ?P*/
-
-
-                    console.log(newCartArray);
+                    
+                    console.log(newClicSofa);
                     
                     console.log("Id du newKanap : " + newKanap.shoppedSofaId);
                     
                         
                         console.table(shoppedSofas);
-                        console.table(JSON.parse(cartArray));
+                        console.table(JSON.parse(clicSofa));*/
                        
                         
                     }
