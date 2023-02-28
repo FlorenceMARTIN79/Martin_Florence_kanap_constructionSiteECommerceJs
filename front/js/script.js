@@ -8,10 +8,10 @@ function apiRecovery() {
         })
         .then(function (sofas) {
             /*display of the datas from the API in a table*/
-            console.table(sofas);
-            console.log(sofas[1]);
-            console.log(sofas.length);
-            console.log(sofas[1]._id);
+            //console.table(sofas);
+            //console.log(sofas[1]);
+            //console.log(sofas.length);
+            //console.log(sofas[1]._id);
 
 
             /*Creation of a loop to create as many elements in the DOM as sofas*/
@@ -22,19 +22,19 @@ function apiRecovery() {
                 //Creation of an a tag in the items section
                 const card = document.createElement("a");
                 card.setAttribute("href", "product.html?id=" + sofas[i]._id);
-                console.log(card);
+                //console.log(card);
                 //Creation of an article in the card
                 const cardArticle = document.createElement("article");
                 //Creation of an img in the card
                 const cardImg = document.createElement("img");
                 cardImg.setAttribute("alt", sofas[i].altTxt);
                 cardImg.setAttribute("src", kanapImg);
-                console.log(cardImg);
+                //console.log(cardImg);
                 //Creation of a h3 in the card
                 const cardTitle = document.createElement("h3");
                 //cardTitle.setAttribute("class", kanapName);
                 cardTitle.setAttribute("id", sofas[i]._id);
-                console.log(cardTitle);
+                //console.log(cardTitle);
                 cardTitle.textContent = kanapName;
                 //Creation of p in the card
                 const cardDescription = document.createElement("p");
@@ -52,6 +52,7 @@ function apiRecovery() {
         //Error message when the API has not been reached 
         .catch(function (err) {
             console.log("erreur connexion API");
+            alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
         });
 }
 

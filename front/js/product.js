@@ -45,53 +45,59 @@ function apiRecovery() {
 
             }
 
+            let shoppedSofas = [];
 
             //Creation of the cart containing the selected sofa(s)
 
             addItem.addEventListener("click", function () {
 
-                /*let shoppedSofaId = productId;
-                let shoppedSofaColor = selectColor.options[selectColor.selectedIndex].value;
-                let shoppedSofaQuantity = enterQuantity.value;*/
-                let shoppedSofas = [];
+                console.table(shoppedSofas);
 
-                let newShoppedSofa = {
+                let newKanap = {
                     shoppedSofaId: productId,
                     shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
                     shoppedSofaQuantity: enterQuantity.value,
                 }
 
-                //backup of the cart in the local storage
-                //localStorage.setItem("cartArray", JSON.stringify((shoppedSofas)));
-
                 //variables helping to control the correct filling of the options (quantity and color)
-                let colorControl = newShoppedSofa.shoppedSofaColor != "";
-                let quantityControl = newShoppedSofa.shoppedSofaQuantity > 0 && newShoppedSofa.shoppedSofaQuantity < 101;
+                let colorControl = newKanap.shoppedSofaColor != "";
+                let quantityControl = newKanap.shoppedSofaQuantity > 0 && newKanap.shoppedSofaQuantity < 101;
 
 
                 //condition controlling the adding of the sofa in the array
-                if (colorControl && quantityControl) {
+                if (colorControl && quantityControl) {/*si on a bien renseigné une couleur et une quantité*/
 
-                    //push of the newShoppedSofa if the local storage is empty
-                    let cartArray = localStorage.getItem("cartArray");
-                    if (cartArray == null) {                     
-                        shoppedSofas.push(newShoppedSofa);
-                        localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
-                    } else {
-                        /*let cartArrayJSON = JSON.parse(cartArray);
-                        if (localStorage.getItem("cartArray").find("shoppedSofaId") = newShoppedSofa.shoppedSofaId){
-                            console.log("yes");
-                        } else {
-                            console.log("hé non");*/
-                        shoppedSofas.push(newShoppedSofa);
+                    //push of the newKanap if the local storage is empty
+                    let cartArray = localStorage.getItem("cartArray");/*récupération du local storage*/
+
+                    if (cartArray == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+                        shoppedSofas.push(newKanap);
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
                         
+                    } else {
+                    console.log("Nombre de lignes de cartArray : " + JSON.parse(cartArray).length);
+
+                    var newCartArray = JSON.parse(cartArray).filter(function(sofaFilter) {
+                        return sofaFilter.shoppedSofaId != newKanap.shoppedSofaId;
+                        
+                    });
+
+                    shoppedSofas.push(newKanap);
+                    localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+
+                    /*ICI incrémenter la quantité du canapé existant ?P*/
+
+
+                    console.log(newCartArray);
+                    
+                    console.log("Id du newKanap : " + newKanap.shoppedSofaId);
+                    
+                        
+                        console.table(shoppedSofas);
+                        console.table(JSON.parse(cartArray));
+                       
+                        
                     }
-
-
-                    //shoppedSofas.push(newShoppedSofa);
-                    console.table(shoppedSofas);
-
 
 
                 } else if (colorControl) {
@@ -105,20 +111,14 @@ function apiRecovery() {
 
             });
 
-            //condition controlling the adding of the shopped sofa(s) in the array in the local storage checking if the sofa already exists
-            //si id et couleur = new alors nouvelle ligne dans le tableau, sinon si id et couleur déjà présents alors ajouter quantité
-
-
-
-
+            
 
         })
         //Error message when the API has not been reached 
         .catch(function (err) {
             console.log("erreur connexion API");
+            alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
         });
 }
 
 apiRecovery();
-
-//dans le localStorage il faudra surement utilier une conditiond de type switch pour vérifier dans le tableau si le canapé est déjà présent ou non
