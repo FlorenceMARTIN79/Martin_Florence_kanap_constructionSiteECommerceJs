@@ -45,14 +45,13 @@ function apiRecovery() {
 
             }
 
-            let shoppedSofas = [];
-
-            //Creation of the cart containing the selected sofa(s)
-
+            /*let shoppedSofas = [];
+            console.log(shoppedSofas);*/
+            //Listening of the click on "ajouter au panier" button
             addItem.addEventListener("click", function () {
 
                 //console.table(shoppedSofas);
-
+                //creation of the object newKanap ; should rather create a class kanap and then create as many objects newKanap as sofas selected ?
                 let newKanap = {
                     shoppedSofaId: productId,
                     shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
@@ -64,25 +63,34 @@ function apiRecovery() {
                 let quantityControl = newKanap.shoppedSofaQuantity > 0 && newKanap.shoppedSofaQuantity < 101;
 
 
-                //condition controlling the adding of the sofa in the array
-                if (colorControl && quantityControl) {/*si on a bien renseigné une couleur et une quantité*/
+                //condition controlling the adding of the sofa in the localStorage
+                if (colorControl && quantityControl) {/*if the color and the quantity fields have been filled correctly*/
 
-                    //push of the newKanap if the local storage is empty
-                    let /*cartArray*/clicSofa = localStorage.getItem/*("cartArray")*/("clicSofa");/*récupération du local storage*/
+                    //push in the local storage of the sofa selected (id, color and quantity selected by the user) if the local storage is empty
+                    //let clicSofa = localStorage.getItem("clicSofa");
+                    //localStorage.setItem(clef, test1);
+                    //console.log(localStorage.length);
+                    /*recovery of the local storage*/
 
-                    if (/*cartArray*/clicSofa == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
-                        shoppedSofas.push(newKanap);
-                        localStorage.setItem(/*"cartArray"*/JSON.stringify(productId + selectColor.options[selectColor.selectedIndex].value), JSON.stringify(enterQuantity.value));
+                    if (localStorage.length = 0) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le local storage */
+                        /*shoppedSofas.push(newKanap);
+                        console.log(newKanap);*/
+                        localStorage.setItem(JSON.stringify(productId + selectColor.options[selectColor.selectedIndex].value), JSON.stringify(enterQuantity.value));
+                        
                         
                     } else {
-                    //console.log("Nombre de lignes de clicSofa : " + JSON.parse(clicSofa).length);
 
-                    var newClicSofa = JSON.parse(clicSofa).filter(function(sofaFilter) {
+                        localStorage.setItem(JSON.stringify(productId + selectColor.options[selectColor.selectedIndex].value), JSON.stringify(enterQuantity.value));
+                        console.log(localStorage.length);
+                    /*console.log("Nombre de lignes de clicSofa : " + JSON.parse(clicSofa).length);*/
+
+                    /*var newClicSofa = JSON.parse(clicSofa).filter(function(sofaFilter) {
                         return sofaFilter.shoppedSofaId != newKanap.shoppedSofaId;
+
 
                     /*ICI ajouter une fonction pour ajouter les quantités de sofas identiquescliqués*/
                         
-                    });
+                    /*});*/
 
                     /*shoppedSofas.push(newKanap);
                     localStorage.setItem("clicSofa", JSON.stringify(shoppedSofas));
@@ -111,7 +119,6 @@ function apiRecovery() {
 
             });
 
-            
 
         })
         //Error message when the API has not been reached 
