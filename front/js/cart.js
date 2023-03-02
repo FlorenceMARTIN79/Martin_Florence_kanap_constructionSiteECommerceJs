@@ -18,4 +18,35 @@
         });
 }
 
-apiRecovery();
+apiRecovery();*/
+
+console.log(localStorage.length);
+
+
+let cart = [];
+class cartElt {
+    constructor (id, color, quantity) {
+        this.id = id;
+        this.color = color;
+        this.quantity = quantity;
+    }
+}
+let ex1 = new cartElt("id", "color", "quantity");
+cart.push(ex1);
+
+    for (let i = 0; i < localStorage.length; i++) {
+        x = localStorage.key(i);
+        let Elt = localStorage.getItem(x);
+        console.table(x);
+        cart.push(x+Elt);
+console.table(cart);
+
+    }
+
+    
+
+
+
+
+
+
