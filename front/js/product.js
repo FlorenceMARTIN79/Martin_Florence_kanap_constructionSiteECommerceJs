@@ -65,39 +65,60 @@ function apiRecovery() {
                 if (colorControl && quantityControl) {/*if the color and quantity fields are filled correctly*/
 
                     //push of the newKanap if the local storage is empty
-                    let cartArray = localStorage.getItem("cartArray");/*recovery of local storage*/
+                    //let cartArray = localStorage.getItem("cartArray");/*recovery of local storage*/
 
-                    if (cartArray == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+                    if (/*cartArray == null*/localStorage.length < 1) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
                         //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
                         console.table(shoppedSofas);
 
-                        //push of the cartArray in the localStorage
+                        //push of the selected sofa(s) in the localStorage as an array under the name cartArray
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
                         
                     } else {
-                    //console.log("Nombre de lignes de cartArray : " + JSON.parse(cartArray).length);
-
-                    /*var newCartArray = JSON.parse(cartArray).filter(function(sofaFilter) {
-                        return sofaFilter.shoppedSofaId != newKanap.shoppedSofaId;
-                        
-                    });*/
-
-                    shoppedSofas.push(newKanap);
-                    localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
-
-                    /*ICI incrémenter la quantité du canapé existant ?P*/
-
-
-                    //console.log(newCartArray);
                     
-                    console.log("Id du newKanap : " + newKanap.shoppedSofaId);
-                    
+                        console.log(newKanap);
+
+                        //on récupère le contenu du local storage et on le nomme localStoragecontent;
+                        let shoppedSofas = localStorage.getItem("cartArray");
+                        let localStorageContent = JSON.parse(shoppedSofas);
+
+                        console.table(localStorageContent);
+                        console.log(newKanap.shoppedSofaId);
+
+                        //utilisation de la méthode filter pour filtrer les éléments du local storage
+                        const filterStorageId = localStorageContent.filter(elt => elt.shoppedSofaId = newKanap.shoppedSofaId);
                         
-                        console.log("tableau shoppedSofas de la page product.js ") + console.table(shoppedSofas);
-                        console.log("tableau cartArray du localStorage ") + console.table(JSON.parse(cartArray));
-                       
+                        console.log(filterStorageId);
+                        console.log(elt.shoppedSofaId);
+
+                        const filterStorageColor = localStorageContent.filter(elt => elt.shoppedSofaColor = newKanap.shoppedSofaColor);
+
+                        console.log(filterStorageColor);
                         
+                        /*ICI condition boucle : on parcourt chaque élément de cartArrayJson, si id ET couleur du premier élément présents dans tableau panier, on ajoute quantité élément à quantité panier
+                        si  id ET couleur du premier élément pas présents dans le tableau panier, on ajoute tout l'élément au panier ; puis voir pour amélioration avec map et filter*/
+
+                        /*for (let i in cartArrayJson) {
+                            console.log(cartArrayJson[i]);
+                            if (shoppedSofaId[i].cartArrayJson != shoppedSofas.shoppedSofaId) {
+                                console.log("top");
+                            }
+                            else {
+                                console.log("try again");
+                            }
+                        }*/
+
+
+                        //console.log(newCartArray);
+                        
+                        console.log("Id du newKanap : " + newKanap.shoppedSofaId);
+                        
+                            
+                            console.log("tableau shoppedSofas de la page product.js ") + console.table(shoppedSofas);
+                            console.log("tableau cartArray du localStorage ") + console.table(JSON.parse(cartArray));
+                        
+                            
                     }
 
 
