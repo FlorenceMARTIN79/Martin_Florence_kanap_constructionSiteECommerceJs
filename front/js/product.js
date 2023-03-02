@@ -45,13 +45,10 @@ function apiRecovery() {
 
             }
 
+            //Creation of the cart containing the selected sofa(s)
             let shoppedSofas = [];
 
-            //Creation of the cart containing the selected sofa(s)
-
             addItem.addEventListener("click", function () {
-
-                console.table(shoppedSofas);
 
                 let newKanap = {
                     shoppedSofaId: productId,
@@ -65,22 +62,26 @@ function apiRecovery() {
 
 
                 //condition controlling the adding of the sofa in the array
-                if (colorControl && quantityControl) {/*si on a bien renseigné une couleur et une quantité*/
+                if (colorControl && quantityControl) {/*if the color and quantity fields are filled correctly*/
 
                     //push of the newKanap if the local storage is empty
-                    let cartArray = localStorage.getItem("cartArray");/*récupération du local storage*/
+                    let cartArray = localStorage.getItem("cartArray");/*recovery of local storage*/
 
                     if (cartArray == null) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+                        //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
+                        console.table(shoppedSofas);
+
+                        //push of the cartArray in the localStorage
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
                         
                     } else {
-                    console.log("Nombre de lignes de cartArray : " + JSON.parse(cartArray).length);
+                    //console.log("Nombre de lignes de cartArray : " + JSON.parse(cartArray).length);
 
-                    var newCartArray = JSON.parse(cartArray).filter(function(sofaFilter) {
+                    /*var newCartArray = JSON.parse(cartArray).filter(function(sofaFilter) {
                         return sofaFilter.shoppedSofaId != newKanap.shoppedSofaId;
                         
-                    });
+                    });*/
 
                     shoppedSofas.push(newKanap);
                     localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
@@ -88,13 +89,13 @@ function apiRecovery() {
                     /*ICI incrémenter la quantité du canapé existant ?P*/
 
 
-                    console.log(newCartArray);
+                    //console.log(newCartArray);
                     
                     console.log("Id du newKanap : " + newKanap.shoppedSofaId);
                     
                         
-                        console.table(shoppedSofas);
-                        console.table(JSON.parse(cartArray));
+                        console.log("tableau shoppedSofas de la page product.js ") + console.table(shoppedSofas);
+                        console.log("tableau cartArray du localStorage ") + console.table(JSON.parse(cartArray));
                        
                         
                     }
