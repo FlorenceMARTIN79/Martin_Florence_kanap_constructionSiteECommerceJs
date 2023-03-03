@@ -62,63 +62,56 @@ function apiRecovery() {
 
 
                 //condition controlling the adding of the sofa in the array
-                if (colorControl && quantityControl) {/*if the color and quantity fields are filled correctly*/
+                if (colorControl && quantityControl) {
+                    /*if the color and quantity fields are filled correctly*/
 
                     //push of the newKanap if the local storage is empty
-                    //let cartArray = localStorage.getItem("cartArray");/*recovery of local storage*/
 
-                    if (/*cartArray == null*/localStorage.length < 1) {/*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+
+                    if (localStorage.length < 1) {
+                        /*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
                         //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
-                        console.table(shoppedSofas);
+                        console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);
 
                         //push of the selected sofa(s) in the localStorage as an array under the name cartArray
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
-                        
+
                     } else {
-                    
-                        console.log(newKanap);
+
+                        console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);
+
+                        console.log('canapé sélectionné par l utilisateur à ajouter au panier', newKanap);
 
                         //on récupère le contenu du local storage et on le nomme localStoragecontent;
                         let shoppedSofas = localStorage.getItem("cartArray");
                         let localStorageContent = JSON.parse(shoppedSofas);
 
-                        console.table(localStorageContent);
-                        console.log(newKanap.shoppedSofaId);
+                        console.log('local storage avant filtres', localStorageContent);
 
-                        //utilisation de la méthode filter pour filtrer les éléments du local storage
-                        const filterStorageId = localStorageContent.filter(elt => elt.shoppedSofaId = newKanap.shoppedSofaId);
-                        
-                        console.log(filterStorageId);
-                        console.log(elt.shoppedSofaId);
+                        //utilisation de la méthode filter pour retourner un nouveau tableau localStorageContent dont les éléments ont un id identique à celui du newKanap
+                        const deleteProductId = (shoppedSofaId) => {
+                            localStorageContent = localStorageContent.filter(elt => elt.shoppedSofaId == shoppedSofaId);
+                        }
+                        deleteProductId(newKanap.shoppedSofaId);
 
-                        const filterStorageColor = localStorageContent.filter(elt => elt.shoppedSofaColor = newKanap.shoppedSofaColor);
+                        console.table('local storage filtré par Id', localStorageContent);
 
-                        console.log(filterStorageColor);
-                        
-                        /*ICI condition boucle : on parcourt chaque élément de cartArrayJson, si id ET couleur du premier élément présents dans tableau panier, on ajoute quantité élément à quantité panier
-                        si  id ET couleur du premier élément pas présents dans le tableau panier, on ajoute tout l'élément au panier ; puis voir pour amélioration avec map et filter*/
+                        const deleteProductColor = (shoppedSofaColor) => {
+                            localStorageContent = localStorageContent.filter(elt => elt.shoppedSofaColor == shoppedSofaColor);
+                        }
+                        deleteProductColor(newKanap.shoppedSofaColor);
 
-                        /*for (let i in cartArrayJson) {
-                            console.log(cartArrayJson[i]);
-                            if (shoppedSofaId[i].cartArrayJson != shoppedSofas.shoppedSofaId) {
-                                console.log("top");
-                            }
-                            else {
-                                console.log("try again");
-                            }
-                        }*/
+                        console.log('local storage déjà préfiltré, filtré par couleur', localStorageContent);
 
 
-                        //console.log(newCartArray);
-                        
-                        console.log("Id du newKanap : " + newKanap.shoppedSofaId);
-                        
-                            
-                            console.log("tableau shoppedSofas de la page product.js ") + console.table(shoppedSofas);
-                            console.log("tableau cartArray du localStorage ") + console.table(JSON.parse(cartArray));
-                        
-                            
+                        localStorage.setItem("cartArray", JSON.stringify(localStorageContent));
+
+
+
+                        console.log("tableau shoppedSofas de la page product.js ", shoppedSofas);
+
+
                     }
 
 
@@ -133,7 +126,7 @@ function apiRecovery() {
 
             });
 
-            
+
 
         })
         //Error message when the API has not been reached 
