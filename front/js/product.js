@@ -63,13 +63,10 @@ function apiRecovery() {
 
                 //condition controlling the adding of the sofa in the array
                 if (colorControl && quantityControl) {
-                    /*if the color and quantity fields are filled correctly*/
 
-                    //push of the newKanap if the local storage is empty
-
-
+                    /*if the local storage is empty, the new sofa is pushed into the cart*/
                     if (localStorage.length < 1) {
-                        /*si le panier du local storage est vide, on pousse le nouveau kanap dans le tableau des sofas PUIS on sauvegarde ce nouveeau panier dans le local storage*/
+                        
                         //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
                         console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);
@@ -77,57 +74,38 @@ function apiRecovery() {
                         //push of the selected sofa(s) in the localStorage as an array under the name cartArray
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
 
+                    /*if the local storage is not empty*/
                     } else {
 
-                        //on récupère le contenu du local storage et on le nomme localStoragecontent;
+                        //recovery of the content of the local storage
                         let shoppedSofas = JSON.parse(localStorage.getItem("cartArray"));
-                        //let localStorageContent = JSON.parse(shoppedSofas);
 
-                        console.log('local storage avant filtres', shoppedSofas);
-
-                        //utilisation de la méthode filter pour retourner un nouveau tableau localStorageContent dont les éléments ont un id identique à celui du newKanap
+                        //set up of filters on the id and the color
                         const deleteProductId = (shoppedSofaId) => {
                             localStorageContentById = shoppedSofas.filter(elt => elt.shoppedSofaId == shoppedSofaId);
                         }
                         deleteProductId(newKanap.shoppedSofaId);
-
-                        console.table(/*'local storage filtré par Id', */localStorageContentById);
 
                         const deleteProductColor = (shoppedSofaColor) => {
                             localStorageContentByColor = localStorageContentById.filter(elt => elt.shoppedSofaColor == shoppedSofaColor);
                         }
                         deleteProductColor(newKanap.shoppedSofaColor);
 
-                        console.log('local storage déjà préfiltré, filtré par couleur', localStorageContentByColor);
-                        console.log(localStorageContentByColor.length);
-
-                        //console.table(shoppedSofas);
-
-                        //localStorageContent.push(newKanap);
-                        
-                     
-
+                        //if only the color is different, a new sofa is added in the cart
                         if (localStorageContentByColor.length == 0) {
                             shoppedSofas.push(newKanap);
                             localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
-                        } else if (localStorageContentByColor.length > 0 ) {
-                            //localStorageContentByColor.forEach(elt => elt.shoppedSofaQuantity + newKanap.shoppedSofaQuantity);
+
+                        //if the sofa already exists (same id and color), the quantity is increased in the cart
+                        } else if (localStorageContentByColor.length > 0) {
                             const sameSofaToAdd = localStorageContentByColor.find(elt => elt.shoppedSofaId == newKanap.shoppedSofaId);
 
-                           sameSofaToAdd.shoppedSofaQuantity = (Number(sameSofaToAdd.shoppedSofaQuantity) + Number(newKanap.shoppedSofaQuantity));
+                            sameSofaToAdd.shoppedSofaQuantity = (Number(sameSofaToAdd.shoppedSofaQuantity) + Number(newKanap.shoppedSofaQuantity));
 
-                           localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                            localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
                         }
 
-                        console.table(shoppedSofas);
-
-                        //localStorage.setItem("cartArray", JSON.stringify(localStorageContent));
-
-
-
-                        //console.log("tableau shoppedSofas de la page product.js ", shoppedSofas);
-
-
+                        
                     }
 
 
