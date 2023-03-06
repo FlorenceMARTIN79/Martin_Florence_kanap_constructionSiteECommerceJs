@@ -8,12 +8,7 @@ function apiRecovery() {
         })
         .then(function (sofas) {
             /*display of the datas from the API in a table*/
-            //console.table(sofas);
-            //console.log(sofas[1]);
-            //console.log(sofas.length);
-            //console.log(sofas[1]._id);
-
-
+            
             /*Creation of a loop to create as many elements in the DOM as sofas*/
             for (let i = 0; i < sofas.length; i++) {
                 let kanapName = sofas[i].name;

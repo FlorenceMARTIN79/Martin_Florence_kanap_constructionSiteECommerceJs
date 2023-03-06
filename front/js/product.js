@@ -66,7 +66,7 @@ function apiRecovery() {
 
                     /*if the local storage is empty, the new sofa is pushed into the cart*/
                     if (localStorage.length < 1) {
-                        
+
                         //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
                         console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);
@@ -74,7 +74,7 @@ function apiRecovery() {
                         //push of the selected sofa(s) in the localStorage as an array under the name cartArray
                         localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
 
-                    /*if the local storage is not empty*/
+                        /*if the local storage is not empty*/
                     } else {
 
                         //recovery of the content of the local storage
@@ -96,16 +96,17 @@ function apiRecovery() {
                             shoppedSofas.push(newKanap);
                             localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
 
-                        //if the sofa already exists (same id and color), the quantity is increased in the cart
+                            //if the sofa already exists (same id and color), the quantity is increased in the cart
                         } else if (localStorageContentByColor.length > 0) {
                             const sameSofaToAdd = localStorageContentByColor.find(elt => elt.shoppedSofaId == newKanap.shoppedSofaId);
 
                             sameSofaToAdd.shoppedSofaQuantity = (Number(sameSofaToAdd.shoppedSofaQuantity) + Number(newKanap.shoppedSofaQuantity));
-
+                            console.table(shoppedSofas);
                             localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                            
                         }
 
-                        
+
                     }
 
 
