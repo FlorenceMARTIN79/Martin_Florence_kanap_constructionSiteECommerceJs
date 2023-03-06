@@ -79,37 +79,53 @@ function apiRecovery() {
 
                     } else {
 
-                        console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);
-
-                        console.log('canapé sélectionné par l utilisateur à ajouter au panier', newKanap);
-
                         //on récupère le contenu du local storage et on le nomme localStoragecontent;
-                        let shoppedSofas = localStorage.getItem("cartArray");
-                        let localStorageContent = JSON.parse(shoppedSofas);
+                        let shoppedSofas = JSON.parse(localStorage.getItem("cartArray"));
+                        //let localStorageContent = JSON.parse(shoppedSofas);
 
-                        console.log('local storage avant filtres', localStorageContent);
+                        console.log('local storage avant filtres', shoppedSofas);
 
                         //utilisation de la méthode filter pour retourner un nouveau tableau localStorageContent dont les éléments ont un id identique à celui du newKanap
                         const deleteProductId = (shoppedSofaId) => {
-                            localStorageContent = localStorageContent.filter(elt => elt.shoppedSofaId == shoppedSofaId);
+                            localStorageContentById = shoppedSofas.filter(elt => elt.shoppedSofaId == shoppedSofaId);
                         }
                         deleteProductId(newKanap.shoppedSofaId);
 
-                        console.table('local storage filtré par Id', localStorageContent);
+                        console.table(/*'local storage filtré par Id', */localStorageContentById);
 
                         const deleteProductColor = (shoppedSofaColor) => {
-                            localStorageContent = localStorageContent.filter(elt => elt.shoppedSofaColor == shoppedSofaColor);
+                            localStorageContentByColor = localStorageContentById.filter(elt => elt.shoppedSofaColor == shoppedSofaColor);
                         }
                         deleteProductColor(newKanap.shoppedSofaColor);
 
-                        console.log('local storage déjà préfiltré, filtré par couleur', localStorageContent);
+                        console.log('local storage déjà préfiltré, filtré par couleur', localStorageContentByColor);
+                        console.log(localStorageContentByColor.length);
+
+                        //console.table(shoppedSofas);
+
+                        //localStorageContent.push(newKanap);
+                        
+                     
+
+                        if (localStorageContentByColor.length == 0) {
+                            shoppedSofas.push(newKanap);
+                            localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                        } else if (localStorageContentByColor.length > 0 ) {
+                            //localStorageContentByColor.forEach(elt => elt.shoppedSofaQuantity + newKanap.shoppedSofaQuantity);
+                            const sameSofaToAdd = localStorageContentByColor.find(elt => elt.shoppedSofaId == newKanap.shoppedSofaId);
+
+                           sameSofaToAdd.shoppedSofaQuantity = (Number(sameSofaToAdd.shoppedSofaQuantity) + Number(newKanap.shoppedSofaQuantity));
+
+                           localStorage.setItem("cartArray", JSON.stringify(shoppedSofas));
+                        }
+
+                        console.table(shoppedSofas);
+
+                        //localStorage.setItem("cartArray", JSON.stringify(localStorageContent));
 
 
-                        localStorage.setItem("cartArray", JSON.stringify(localStorageContent));
 
-
-
-                        console.log("tableau shoppedSofas de la page product.js ", shoppedSofas);
+                        //console.log("tableau shoppedSofas de la page product.js ", shoppedSofas);
 
 
                     }
