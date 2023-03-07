@@ -6,24 +6,35 @@ function apiRecovery() {
                 return res.json();
             }
         })
-        .then(function (cartArray) {
+        .then(function (sofas) {
 
-            let shoppedSofas = JSON.parse(localStorage.getItem("cartArray"));
+            console.table(sofas);
+
+            //recovery of the array in the local storage
+            let cartItems = JSON.parse(localStorage.getItem("cartArray"));
             
-            console.table(shoppedSofas);
+            console.table(cartItems);
+
+            
 
             //création d'autant d'articles que de canapés
             /*Creation of a loop to create as many elements in the DOM as sofas*/
-            for (let i = 0; i < shoppedSofas.length; i++) {
-                let kanapId = shoppedSofas[i].shoppedSofaId;
-                let kanapColor = shoppedSofas[i].shoppedSofaColor;
-                let kanapImg = shoppedSofas[i].imageUrl;
+            for (let i = 0; i < cartItems.length; i++) {
+
+                
+                let itemId = cartItems[i].shoppedSofaId;
+                let itemColor = cartItems[i].shoppedSofaColor;
+
+                const sofasFromCart = sofas.find (elt => elt._id == cartItems[i].shoppedSofaId);
+                console.log (sofasFromCart);
+                let itemImg = sofasFromCart.imageUrl;
+                console.log(itemColor);
                 
                 //Creation of an a tag in the items section
                 const article = document.createElement("article");
                 article.setAttribute("class", "cart__item");
-                article.setAttribute("data-id", kanapId);
-                article.setAttribute("data-color", kanapColor);
+                article.setAttribute("data-id", itemId);
+                article.setAttribute("data-color", itemColor);
                 document.getElementById('cart__items').appendChild(article);
 
                 const articleImg = document.createElement("div");
@@ -31,7 +42,7 @@ function apiRecovery() {
                 article.appendChild(articleImg);
 
                 const sofaImg = document.createElement("img");
-                sofaImg.setAttribute("src", kanapImg);
+                sofaImg.setAttribute("src", itemImg);
                 articleImg.appendChild(sofaImg);
             }
             
