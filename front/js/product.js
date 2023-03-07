@@ -53,7 +53,7 @@ function apiRecovery() {
                 let newKanap = {
                     shoppedSofaId: productId,
                     shoppedSofaColor: selectColor.options[selectColor.selectedIndex].value,
-                    shoppedSofaQuantity: enterQuantity.value,
+                    shoppedSofaQuantity: Number(enterQuantity.value),
                 }
 
                 //variables helping to control the correct filling of the options (quantity and color)

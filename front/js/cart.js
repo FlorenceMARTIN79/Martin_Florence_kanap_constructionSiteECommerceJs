@@ -15,7 +15,8 @@ function apiRecovery() {
             
             console.table(cartItems);
 
-            
+            let cartQuantities = [];
+            let sumItems = 0;
 
             //création d'autant d'articles que de canapés
             /*Creation of a loop to create as many elements in the DOM as sofas*/
@@ -24,30 +25,92 @@ function apiRecovery() {
                 
                 let itemId = cartItems[i].shoppedSofaId;
                 let itemColor = cartItems[i].shoppedSofaColor;
-
-                const sofasFromCart = sofas.find (elt => elt._id == cartItems[i].shoppedSofaId);
-                console.log (sofasFromCart);
-                let itemImg = sofasFromCart.imageUrl;
                 console.log(itemColor);
+                let itemQuantity = cartItems[i].shoppedSofaQuantity;
+
+                const itemsFromCart = sofas.find (elt => elt._id == cartItems[i].shoppedSofaId);
+                let itemsImg = itemsFromCart.imageUrl;
+                let itemsName = itemsFromCart.name;
+                let itemsPrice = itemsFromCart.price;
+
+                cartQuantities.push(cartItems[i].shoppedSofaQuantity);
                 
-                //Creation of an a tag in the items section
-                const article = document.createElement("article");
-                article.setAttribute("class", "cart__item");
-                article.setAttribute("data-id", itemId);
-                article.setAttribute("data-color", itemColor);
-                document.getElementById('cart__items').appendChild(article);
 
-                const articleImg = document.createElement("div");
-                articleImg.setAttribute("class", "cart__item__img");
-                article.appendChild(articleImg);
+                //Creation of the elements DOM
+                const cartItem = document.createElement("article");
+                cartItem.setAttribute("class", "cart__item");
+                cartItem.setAttribute("data-id", itemId);
+                cartItem.setAttribute("data-color", itemColor);
+                document.getElementById('cart__items').appendChild(cartItem);
 
-                const sofaImg = document.createElement("img");
-                sofaImg.setAttribute("src", itemImg);
-                articleImg.appendChild(sofaImg);
+                const cartItemImg = document.createElement("div");
+                cartItemImg.setAttribute("class", "cart__item__img");
+                cartItem.appendChild(cartItemImg);
+
+                const itemImg = document.createElement("img");
+                itemImg.setAttribute("src", itemsImg);
+                itemImg.setAttribute("alt", "Photographie d'un canapé");
+                cartItemImg.appendChild(itemImg);
+
+
+                const cartItemContent = document.createElement("div");
+                cartItemContent.setAttribute("class", "cart__item__content");
+                cartItem.appendChild(cartItemContent);
+
+                const cartItemContentDescription = document.createElement("div");
+                cartItemContentDescription.setAttribute("class", "cart__item__content__description");
+                cartItemContent.appendChild(cartItemContentDescription);
+
+                const itemName = document.createElement("h2");
+                itemName.textContent = itemsName;
+                cartItemContentDescription.appendChild(itemName);
+
+                const itemColorPTag = document.createElement("p");
+                itemColorPTag.textContent = itemColor;
+                cartItemContentDescription.appendChild(itemColorPTag);
+
+                const itemPricePTag = document.createElement("p");
+                itemPricePTag.textContent = itemsPrice + " €";
+                cartItemContentDescription.appendChild(itemPricePTag);
+
+                const cartItemContentSettings = document.createElement("div");
+                cartItemContentSettings.setAttribute("class", "cart__item__content__settings");
+                cartItemContent.appendChild(cartItemContentSettings);
+
+                const cartItemContentSettingsQuantity = document.createElement("div");
+                cartItemContentSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity");
+                cartItemContentSettings.appendChild(cartItemContentSettingsQuantity);
+
+                const itemQuantityPTag = document.createElement("p");
+                itemQuantityPTag.textContent = "Qté : " + itemQuantity;
+                cartItemContentSettingsQuantity.appendChild(itemQuantityPTag);
+
+                const quantityInput = document.createElement("input");
+                quantityInput.setAttribute("type", "number");
+                quantityInput.setAttribute("class", "itemQuantity");
+                quantityInput.setAttribute("name", "itemQuantity");
+                quantityInput.setAttribute("min", "1");
+                quantityInput.setAttribute("max", "100");
+                quantityInput.setAttribute("value", itemQuantity);
+                cartItemContentSettingsQuantity.appendChild(quantityInput);
+
+                const cartItemContentSettingsDelete = document.createElement("div");
+                cartItemContentSettingsDelete.setAttribute("class", "cart__item,,content_settings__delete");
+                cartItemContentSettingsQuantity.appendChild(cartItemContentSettingsDelete);
+
+                const deletePTag = document.createElement("p");
+                deletePTag.setAttribute("class", "deleteItem");
+                deletePTag.textContent = "Supprimer";
+                cartItemContentSettingsDelete.appendChild(deletePTag);
+
             }
             
+            for (let j = 0; j < cartQuantities.length; j++ ) {
+                cartQuantities
+                sumItems += cartQuantities[j];
+            }
 
-
+            document.getElementById('totalQuantity').textContent = sumItems;
 
         })
         //Error message when the API has not been reached 
