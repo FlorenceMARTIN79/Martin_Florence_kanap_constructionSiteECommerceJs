@@ -1,5 +1,4 @@
 //recovery of the id contained in the URL via UrlSearchParams
-
 let str = window.location.href;
 let url = new URL(str);
 let productId = url.searchParams.get("id");
@@ -65,8 +64,8 @@ function apiRecovery() {
                 if (colorControl && quantityControl) {
 
                     /*if the local storage is empty, the new sofa is pushed into the cart*/
+                    
                     if (localStorage.length < 1) {
-
                         //creation of the new sofa in the array shoppedSofas
                         shoppedSofas.push(newKanap);
                         console.table('Tableau shoppedSofas pour les sofas sélectionnés', shoppedSofas);

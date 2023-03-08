@@ -16,19 +16,19 @@ function apiRecovery() {
             //recovery of the array in the local storage
             let cartItems = JSON.parse(localStorage.getItem("cartArray"));
 
-            console.table("contenu du local storage",cartItems);
+            console.table("contenu du local storage", cartItems);
 
             if (cartItems == null) {
                 console.log("cartItems n'existe pas");
 
             } else {
-                
-                cartItems.sort(function(x, y){
+
+                cartItems.sort(function (x, y) {
                     let a = x.shoppedSofaId.toUpperCase(),
                         b = y.shoppedSofaId.toUpperCase();
                     return a == b ? 0 : a > b ? 1 : -1;
-                });               
-                
+                });
+
                 let cartQuantities = [];
                 let sumItems = 0;
 
@@ -116,20 +116,15 @@ function apiRecovery() {
                     deletePTag.textContent = "Supprimer";
                     cartItemContentSettingsDelete.appendChild(deletePTag);
 
-                    let sofaArticle = document.querySelectorAll(".cart__item");
-                    let itemModifyQuantity = document.querySelectorAll(".itemQuantity");
-                    console.log(Number(itemModifyQuantity.value));
-                    /*modifyQuantity.addEventListener("click", function () {
+                    console.log([i], (quantityInput.value));
+                    quantityInput.addEventListener("input", function () {
 
-                } */   
-                    
+                        console.log(quantityInput.value);
+                    });
 
                 }
 
                 console.log(cartItems);
-
-
-                
 
                 for (let j = 0; j < cartQuantities.length; j++) {
                     cartQuantities
