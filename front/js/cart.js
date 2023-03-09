@@ -31,23 +31,24 @@ function apiRecovery() {
 
                 let cartQuantities = [];
                 let sumItems = 0;
+                let cartSubtotals = [];
+                let subTotals = 0;
 
-                //création d'autant d'articles que de canapés
                 /*Creation of a loop to create as many elements in the DOM as sofas*/
                 for (let i = 0; i < cartItems.length; i++) {
-
 
                     let itemId = cartItems[i].shoppedSofaId;
                     let itemColor = cartItems[i].shoppedSofaColor;
                     let itemQuantity = cartItems[i].shoppedSofaQuantity;
-
+                    
                     const itemsFromCart = sofas.find(elt => elt._id == cartItems[i].shoppedSofaId);
                     let itemsImg = itemsFromCart.imageUrl;
                     let itemsName = itemsFromCart.name;
                     let itemsPrice = itemsFromCart.price;
-
+                    
                     cartQuantities.push(cartItems[i].shoppedSofaQuantity);
 
+                    
 
                     //Creation of the elements DOM
                     const cartItem = document.createElement("article");
@@ -111,27 +112,57 @@ function apiRecovery() {
                     cartItemContentSettingsDelete.setAttribute("class", "cart__item,,content_settings__delete");
                     cartItemContentSettingsQuantity.appendChild(cartItemContentSettingsDelete);
 
-                    const deletePTag = document.createElement("p");
+                    const deletePTag = document.createElement("input");
                     deletePTag.setAttribute("class", "deleteItem");
-                    deletePTag.textContent = "Supprimer";
+                    deletePTag.setAttribute("type", "button");
+                    deletePTag.setAttribute("value", "Supprimer");
                     cartItemContentSettingsDelete.appendChild(deletePTag);
+                    
 
-                    console.log([i], (quantityInput.value));
+                    //modification of the quantity in the cart when the input value is modified by the user
                     quantityInput.addEventListener("input", function () {
-
-                        console.log(quantityInput.value);
+                        console.log([i], quantityInput.value);
+                        cartItems[i].shoppedSofaQuantity = Number(quantityInput.value);
+                        localStorage.setItem("cartArray", JSON.stringify(cartItems));
+                        console.table(cartItems);
+                        location.reload();
                     });
+
+                    //deletion of a sofa when the "supprimer" the user clicks on supprimer
+                    deletePTag.addEventListener("click", function() {
+                        cartItems.splice([i],1);
+                        localStorage.setItem("cartArray", JSON.stringify(cartItems));
+                        JSON.parse(localStorage.getItem("cartArray"));
+                        location.reload();
+                    })
+
+                    //calculates the subtotal for each kind of item
+                    let itemSubtotalCalcul = (unitPrice, quantity) => { 
+                        return unitPrice * quantity;                
+                    }
+
+                    let itemSubtotal = itemSubtotalCalcul(itemsFromCart.price, cartQuantities[i]);
+                    cartSubtotals.push(itemSubtotal);
 
                 }
 
-                console.log(cartItems);
+                console.log("contenu du panier", cartItems);
 
+                //calculates the total quantity of items in the cart
                 for (let j = 0; j < cartQuantities.length; j++) {
                     cartQuantities
                     sumItems += cartQuantities[j];
                 }
 
                 document.getElementById('totalQuantity').textContent = sumItems;
+
+                //calcultes the total in € of the items in the cart   
+                for (let k = 0; k < cartSubtotals.length; k++) {
+                    cartSubtotals
+                    subTotals += cartSubtotals[k];
+                }
+
+                document.getElementById('totalPrice').textContent = subTotals;
             }
         })
         //Error message when the API has not been reached 
