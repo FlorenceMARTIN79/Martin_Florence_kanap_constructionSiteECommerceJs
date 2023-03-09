@@ -1,6 +1,3 @@
-//creation of js elements corresponding to html elements
-//let modifyQuantity = document.querySelector(".itemQuantity");
-
 /*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products")
@@ -40,15 +37,13 @@ function apiRecovery() {
                     let itemId = cartItems[i].shoppedSofaId;
                     let itemColor = cartItems[i].shoppedSofaColor;
                     let itemQuantity = cartItems[i].shoppedSofaQuantity;
-                    
+
                     const itemsFromCart = sofas.find(elt => elt._id == cartItems[i].shoppedSofaId);
                     let itemsImg = itemsFromCart.imageUrl;
                     let itemsName = itemsFromCart.name;
                     let itemsPrice = itemsFromCart.price;
-                    
-                    cartQuantities.push(cartItems[i].shoppedSofaQuantity);
 
-                    
+                    cartQuantities.push(cartItems[i].shoppedSofaQuantity);
 
                     //Creation of the elements DOM
                     const cartItem = document.createElement("article");
@@ -106,6 +101,28 @@ function apiRecovery() {
                     quantityInput.setAttribute("min", "1");
                     quantityInput.setAttribute("max", "100");
                     quantityInput.setAttribute("value", itemQuantity);
+
+                    //Check if the quantity for each item is between 1 and 100
+                    let minItemQuantity = quantityInput.value < 1;
+                    let maxItemQuantity = quantityInput.value > 100;
+                    if (minItemQuantity) {
+                        alert("la quantité minimum pour un article est 1. La quantité de " + itemsName + " a été mise à jour en conséquence. Merci de renseigner une quantité comprise entre 1 et 100");
+                        cartItems[i].shoppedSofaQuantity = 1;
+                        localStorage.setItem("cartArray", JSON.stringify(cartItems));
+                        location.reload();
+                    } else if (maxItemQuantity) {
+                        alert("la quantité maximum pour un article est 100. La quantité de " + itemsName + " a été mise à jour en conséquence. Merci de renseigner une quantité comprise entre 1 et 100");
+                        cartItems[i].shoppedSofaQuantity = 100;
+                        localStorage.setItem("cartArray", JSON.stringify(cartItems));
+                        location.reload();
+                    } else {
+                        quantityInput.addEventListener("input", function () {
+                            console.log([i], quantityInput.value);
+                            cartItems[i].shoppedSofaQuantity = Number(quantityInput.value);
+                            localStorage.setItem("cartArray", JSON.stringify(cartItems));
+                            location.reload();
+                        });
+                    }
                     cartItemContentSettingsQuantity.appendChild(quantityInput);
 
                     const cartItemContentSettingsDelete = document.createElement("div");
@@ -117,28 +134,18 @@ function apiRecovery() {
                     deletePTag.setAttribute("type", "button");
                     deletePTag.setAttribute("value", "Supprimer");
                     cartItemContentSettingsDelete.appendChild(deletePTag);
-                    
-
-                    //modification of the quantity in the cart when the input value is modified by the user
-                    quantityInput.addEventListener("input", function () {
-                        console.log([i], quantityInput.value);
-                        cartItems[i].shoppedSofaQuantity = Number(quantityInput.value);
-                        localStorage.setItem("cartArray", JSON.stringify(cartItems));
-                        console.table(cartItems);
-                        location.reload();
-                    });
 
                     //deletion of a sofa when the "supprimer" the user clicks on supprimer
-                    deletePTag.addEventListener("click", function() {
-                        cartItems.splice([i],1);
+                    deletePTag.addEventListener("click", function () {
+                        cartItems.splice([i], 1);
                         localStorage.setItem("cartArray", JSON.stringify(cartItems));
                         JSON.parse(localStorage.getItem("cartArray"));
                         location.reload();
                     })
 
                     //calculates the subtotal for each kind of item
-                    let itemSubtotalCalcul = (unitPrice, quantity) => { 
-                        return unitPrice * quantity;                
+                    let itemSubtotalCalcul = (unitPrice, quantity) => {
+                        return unitPrice * quantity;
                     }
 
                     let itemSubtotal = itemSubtotalCalcul(itemsFromCart.price, cartQuantities[i]);
