@@ -1,3 +1,6 @@
+let firstName = document.querySelector("#firstname");
+//firstName.addEventListener()
+
 /*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products")
@@ -116,7 +119,7 @@ function apiRecovery() {
                         localStorage.setItem("cartArray", JSON.stringify(cartItems));
                         location.reload();
                     } else {
-                        quantityInput.addEventListener("input", function () {
+                        quantityInput.addEventListener("change", function () {
                             console.log([i], quantityInput.value);
                             cartItems[i].shoppedSofaQuantity = Number(quantityInput.value);
                             localStorage.setItem("cartArray", JSON.stringify(cartItems));
