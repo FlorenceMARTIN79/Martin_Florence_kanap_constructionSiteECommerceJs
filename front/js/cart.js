@@ -1,22 +1,37 @@
 let nameControl = /[^a-z\s\-]/gi;
+let emailControl = /[^@]/;
 
 let firstName = document.getElementById("firstName");
 let lastName = document.getElementById("lastName");
-
-/*let formControl = (regex, elt) => {
-    if (regex.test(elt.value)) {
-        document.getElementById("")
-    }
-}*/
+let eMail = document.getElementById("email");
 
 firstName.addEventListener("change", function () {
     if (nameControl.test(firstName.value)) {
-        document.getElementById("firstNameErrorMsg").textContent = /*document.getElementByTagName("label").value + */"valeur non valide";
+        document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
     } else {
         document.getElementById("firstNameErrorMsg").textContent = "";
         console.log("le champ nom est renseigné correctement");
     }
 });
+
+lastName.addEventListener("change", function () {
+    if (nameControl.test(lastName.value)) {
+        document.getElementById("lastNameErrorMsg").textContent = "valeur non valide";
+    } else {
+        document.getElementById("lastNameErrorMsg").textContent = "";
+        console.log("le champ nom est renseigné correctement");
+    }
+});
+
+eMail.addEventListener("change", function () {
+    if (emailControl.test(eMail.value)) {
+        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
+    } else {
+        document.getElementById("emailErrorMsg").textContent = "";
+        console.log("le champ mail est renseigné correctement");
+    }
+});
+
 
 
 /*API call on 3000 port*/
