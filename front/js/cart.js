@@ -1,5 +1,23 @@
-let firstName = document.querySelector("#firstname");
-//firstName.addEventListener()
+let nameControl = /[^a-z\s\-]/gi;
+
+let firstName = document.getElementById("firstName");
+let lastName = document.getElementById("lastName");
+
+/*let formControl = (regex, elt) => {
+    if (regex.test(elt.value)) {
+        document.getElementById("")
+    }
+}*/
+
+firstName.addEventListener("change", function () {
+    if (nameControl.test(firstName.value)) {
+        document.getElementById("firstNameErrorMsg").textContent = /*document.getElementByTagName("label").value + */"valeur non valide";
+    } else {
+        document.getElementById("firstNameErrorMsg").textContent = "";
+        console.log("le champ nom est renseigné correctement");
+    }
+});
+
 
 /*API call on 3000 port*/
 function apiRecovery() {
@@ -173,7 +191,11 @@ function apiRecovery() {
                 }
 
                 document.getElementById('totalPrice').textContent = subTotals;
+
+                
             }
+
+            
         })
         //Error message when the API has not been reached 
         .catch(function (err) {
