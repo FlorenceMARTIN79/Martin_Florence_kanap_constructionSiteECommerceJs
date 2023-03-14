@@ -1,60 +1,3 @@
-let onlyWordControl = /[^a-z\s\-]/gi;
-let emailControl = /^([\w-_#\.]+)@([\w-_#\/]+)\.{1}([a-z]{2,10})$/;//first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
-let addressControl = /[^\w\-\.,\s]{2,30}/;
-
-let firstName = document.getElementById("firstName");
-let lastName = document.getElementById("lastName");
-let address = document.getElementById("address");
-let city = document.getElementById("city");
-let eMail = document.getElementById("email");
-
-firstName.addEventListener("change", function () {
-    if (onlyWordControl.test(firstName.value)) {
-        document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
-    } else {
-        document.getElementById("firstNameErrorMsg").textContent = "";
-        console.log("le champ nom est renseigné correctement");
-    }
-});
-
-lastName.addEventListener("change", function () {
-    if (onlyWordControl.test(lastName.value)) {
-        document.getElementById("lastNameErrorMsg").textContent = "valeur non valide";
-    } else {
-        document.getElementById("lastNameErrorMsg").textContent = "";
-        console.log("le champ nom est renseigné correctement");
-    }
-});
-
-address.addEventListener("change", function () {
-    if (addressControl.test(address.value)) {
-        document.getElementById("addressErrorMsg").textContent = "valeur non valide";
-    } else {      
-        document.getElementById("addressErrorMsg").textContent = "";
-        console.log("le champ adresse est renseigné correctement");
-    }
-});
-
-city.addEventListener("change", function() {
-    if (onlyWordControl.test(city.value)) {
-        document.getElementById("cityErrorMsg").textContent = "valeur non valide";
-    } else {
-        document.getElementById("cityErrorMsg").textContent = "";
-        console.log("le champ ville est renseigné correctement");
-    }
-});
-
-eMail.addEventListener("change", function () {
-    if (emailControl.test(eMail.value)) {
-        document.getElementById("emailErrorMsg").textContent = "";
-        console.log("le champ email est renseigné correctement");
-    } else {
-        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
-    }
-});
-
-
-
 /*API call on 3000 port*/
 function apiRecovery() {
     fetch("http://localhost:3000/api/products")
@@ -228,10 +171,99 @@ function apiRecovery() {
 
                 document.getElementById('totalPrice').textContent = subTotals;
 
+                //Form control and sending
+
+                let onlyWordRegex = /[^a-z\s\-]/gi;
+                let emailRegex = /^([\w-_#\.]+)@([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
+                let addressRegex = /[^\w\-\.,\s]{2,30}/;
+
+                let contact = {};
                 
+                let firstNameElt = document.getElementById("firstName");
+                let lastNameElt = document.getElementById("lastName");
+                let addressElt = document.getElementById("address");
+                let cityElt = document.getElementById("city");
+                let eMailElt = document.getElementById("email");
+           
+                let validField = (regex, elt) => {
+                    return regex.test(elt.value);
+                }
+              
+
+                firstNameElt.addEventListener("change", function () {
+                    let firstNameOk = validField(onlyWordRegex, firstNameElt);
+                    let firstNameValue = firstNameElt.value;
+                    if (firstNameOk) {
+                        document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
+                        firstNameValue = "";
+                        delete contact.firstName;
+                        console.log(contact);
+                    } else {
+                        document.getElementById("firstNameErrorMsg").textContent = "";
+                        console.log("le champ nom est renseigné correctement");                        
+                        console.log(firstNameValue);
+                        contact.firstName = firstNameValue;
+                        console.log(contact);
+                    }
+                    console.log(contact);
+                });
+                
+
+                lastNameElt.addEventListener("change", function () {
+                    let lastNameOk = validField(onlyWordRegex, lastNameElt);
+                    let lastName = lastNameElt.value;
+                    if (lastNameOk) {
+                        document.getElementById("lastNameErrorMsg").textContent = "valeur non valide";
+                        lastName = "";
+                    } else {
+                        document.getElementById("lastNameErrorMsg").textContent = "";
+                        console.log("le champ nom est renseigné correctement");
+                    }
+                    console.log(contact);
+                });
+
+                addressElt.addEventListener("change", function () {
+                    let addressOk = validField(addressRegex, addressElt);
+                    let address = addressElt.value;
+                    if (addressOk) {
+                        document.getElementById("addressErrorMsg").textContent = "valeur non valide";
+                        address = "";
+                    } else {
+                        document.getElementById("addressErrorMsg").textContent = "";
+                        console.log("le champ adresse est renseigné correctement");
+                    }
+                });
+
+                cityElt.addEventListener("change", function () {
+                    let cityOk = validField(onlyWordRegex, cityElt);
+                    let city = cityElt.value;
+                    if (cityOk) {
+                        document.getElementById("cityErrorMsg").textContent = "valeur non valide";
+                        city = "";
+                    } else {
+                        document.getElementById("cityErrorMsg").textContent = "";
+                        console.log("le champ ville est renseigné correctement");
+                    }
+                });
+
+                eMailElt.addEventListener("change", function () {
+                    let eMailOk = validField(emailRegex, eMailElt);
+                    let email = eMailElt.value;
+                    if (eMailOk) {
+                        document.getElementById("emailErrorMsg").textContent = "";
+                        console.log("le champ email est renseigné correctement");
+                    } else {
+                        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
+                        email = "";
+                    }
+                });
+
+                console.log(contact);
+
+
             }
 
-            
+
         })
         //Error message when the API has not been reached 
         .catch(function (err) {
