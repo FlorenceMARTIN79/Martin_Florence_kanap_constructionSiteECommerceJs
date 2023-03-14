@@ -1,12 +1,15 @@
-let nameControl = /[^a-z\s\-]/gi;
-let emailControl = /[^@]/;
+let onlyWordControl = /[^a-z\s\-]/gi;
+let emailControl = /^([\w-_#\.]+)@([\w-_#\/]+)\.{1}([a-z]{2,10})$/;//first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
+let addressControl = /[^\w\-\.,\s]{2,30}/;
 
 let firstName = document.getElementById("firstName");
 let lastName = document.getElementById("lastName");
+let address = document.getElementById("address");
+let city = document.getElementById("city");
 let eMail = document.getElementById("email");
 
 firstName.addEventListener("change", function () {
-    if (nameControl.test(firstName.value)) {
+    if (onlyWordControl.test(firstName.value)) {
         document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
     } else {
         document.getElementById("firstNameErrorMsg").textContent = "";
@@ -15,7 +18,7 @@ firstName.addEventListener("change", function () {
 });
 
 lastName.addEventListener("change", function () {
-    if (nameControl.test(lastName.value)) {
+    if (onlyWordControl.test(lastName.value)) {
         document.getElementById("lastNameErrorMsg").textContent = "valeur non valide";
     } else {
         document.getElementById("lastNameErrorMsg").textContent = "";
@@ -23,12 +26,30 @@ lastName.addEventListener("change", function () {
     }
 });
 
+address.addEventListener("change", function () {
+    if (addressControl.test(address.value)) {
+        document.getElementById("addressErrorMsg").textContent = "valeur non valide";
+    } else {      
+        document.getElementById("addressErrorMsg").textContent = "";
+        console.log("le champ adresse est renseigné correctement");
+    }
+});
+
+city.addEventListener("change", function() {
+    if (onlyWordControl.test(city.value)) {
+        document.getElementById("cityErrorMsg").textContent = "valeur non valide";
+    } else {
+        document.getElementById("cityErrorMsg").textContent = "";
+        console.log("le champ ville est renseigné correctement");
+    }
+});
+
 eMail.addEventListener("change", function () {
     if (emailControl.test(eMail.value)) {
-        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
-    } else {
         document.getElementById("emailErrorMsg").textContent = "";
-        console.log("le champ mail est renseigné correctement");
+        console.log("le champ email est renseigné correctement");
+    } else {
+        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
     }
 });
 
