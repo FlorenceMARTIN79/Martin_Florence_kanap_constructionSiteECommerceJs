@@ -173,25 +173,60 @@ function apiRecovery() {
 
                 //Form control and sending
 
-                let onlyWordRegex = /[^a-z\s\-]/gi;
+                let onlyWordRegex = /[a-z\s\-]+/gi;
+                //let firtNameRegex = /[a-z\s\-]+/gi;
                 let emailRegex = /^([\w-_#\.]+)@([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
-                let addressRegex = /[^\w\-\.,\s]{2,30}/;
+                let addressRegex = /[^\w\-\.,\s]{2,30}/;//attention voir regex nom : si caractère exclu présent entre 2et 30
 
-                let contact = {};
+                let contact = {
+                    firstName : "",
+                    lastName : ""
+                };
                 
+
                 let firstNameElt = document.getElementById("firstName");
                 let lastNameElt = document.getElementById("lastName");
                 let addressElt = document.getElementById("address");
                 let cityElt = document.getElementById("city");
                 let eMailElt = document.getElementById("email");
            
-                let validField = (regex, elt) => {
-                    return regex.test(elt.value);
-                }
-              
+                const ajouterLeChampDsContact = (champ, regex) => {
+                    if (regex.test(champ.value)) {
+                    document.querySelector("p[id$=ErrorMsg]").textContent = "";
+                    console.log("le champ "+champ.id+" est renseigné correctement");
+                    contact[champ.name] = champ.value;
+                    console.log(champ.value);
+                    console.log(contact);
+                    } else {
+                    //document.getElementById(/*champ+*/"ErrorMsg").textContent = "valeur non valide";
+                    document.querySelector("p[id*=ErrorMsg").textContent = "valeur non valide";
+                    champ.value = "";
+                    console.log(champ.value);
+                    console.log("regex false");
+                    delete contact.champ;
+                    }};
+                    
+                    const validerForm = (elt, regex) => {
+                        elt.addEventListener("change", function() {
+                            ajouterLeChampDsContact(elt, regex);
+                        })
+                    };
 
-                firstNameElt.addEventListener("change", function () {
+                    validerForm(firstNameElt, onlyWordRegex);
+                    validerForm(lastNameElt, onlyWordRegex);
+                    //validerForm(addressElt, addressRegex);
+                    //validerForm(cityElt, onlyWordRegex);
+                    //validerForm(eMailElt, emailRegex);
+              
+                
+              
+                /*form.addEventListener("change", function() {
+                    console.log("test");
+                });*/
+
+                /*firstNameElt.addEventListener("change", function () {
                     let firstNameOk = validField(onlyWordRegex, firstNameElt);
+                    console.log(validField(onlyWordRegex, firstNameElt));                    
                     let firstNameValue = firstNameElt.value;
                     if (firstNameOk) {
                         document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
@@ -201,15 +236,15 @@ function apiRecovery() {
                     } else {
                         document.getElementById("firstNameErrorMsg").textContent = "";
                         console.log("le champ nom est renseigné correctement");                        
-                        console.log(firstNameValue);
+                        //console.log(firstNameValue);
                         contact.firstName = firstNameValue;
-                        console.log(contact);
+                        //console.log(contact);
                     }
-                    console.log(contact);
+                    //console.log(contact);
                 });
                 
 
-                lastNameElt.addEventListener("change", function () {
+                /*lastNameElt.addEventListener("change", function () {
                     let lastNameOk = validField(onlyWordRegex, lastNameElt);
                     let lastName = lastNameElt.value;
                     if (lastNameOk) {
@@ -258,7 +293,7 @@ function apiRecovery() {
                     }
                 });
 
-                console.log(contact);
+                console.log(contact);*/
 
 
             }
