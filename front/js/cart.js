@@ -1,6 +1,6 @@
 /*API call on 3000 port*/
 function apiRecovery() {
-    fetch("http://localhost:3000/api/products")
+    fetch("http://localhost:3000/api/products/")
         .then(function (res) {
             if (res.ok) {
                 return res.json();
@@ -175,15 +175,11 @@ function apiRecovery() {
 
                 let onlyWordRegex = /^[a-z\s\-]+$/gi;
                 let lastNameRegex = /^[a-z\s\-]+$/gi;
-                //let firtNameRegex = /[a-z\s\-]+/gi;
                 let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
-                let addressRegex = /[\w\-\.,\s]{2,30}$/; 
+                let addressRegex = /[\w\-\.,\s]{2,30}$/;
                 let cityRegex = /^[a-z\s\-]+$/gi;
 
-                let contact = {
-                };
-
-                //let form = document.querySelector("cart__order__form_question");
+                let contact = {};
 
                 let firstName = document.getElementById("firstName");
                 let lastName = document.getElementById("lastName");
@@ -191,77 +187,13 @@ function apiRecovery() {
                 let city = document.getElementById("city");
                 let eMail = document.getElementById("email");
 
-                //let test = onlyWordRegex.test(firstNameElt.value);
-                //console.log(test);
-                /*firstName.addEventListener("change", function() {
-                    validfirstName(this);
-                });
-
-                const validfirstName = function(valeurFirstName) {
-                    let testFirstName = onlyWordRegex.test(firstName.value);
-                    if (testFirstName) {
-                        document.querySelector("p[id$=ErrorMsg]").textContent = "";
-                        console.log("le champ "+firstName.id+" est renseigné correctement");
-                        contact[firstName.name] = firstName.value;
-                        console.log(contact);
-                    } else {
-                        document.querySelector("p[id*=ErrorMsg").textContent = "format incorrect";
-                        firstName.value = "";
-                        console.log(firstName.value);
-                        console.log("regex false");
-                        //delete contact.firstName;
-                    }
-
-                    console.log(contact);
-                };
-
-                lastName.addEventListener("change", function() {
-                    validlastName(this);
-                });
-
-                const validlastName = function(valeurLastName) {
-                    let testLastName = lastNameRegex.test(lastName.value);
-                    if (testLastName) {
-                        document.querySelector("p[id$=ErrorMsg]").textContent = "";
-                        console.log("le champ "+lastName.id+" est renseigné correctement");
-                        contact[lastName.name] = lastName.value;
-                        console.log(contact);
-                    } else {
-                        document.querySelector("p[id*=ErrorMsg").textContent = "format incorrect";
-                        lastN.value = "";
-                        console.log(lastName.value);
-                        console.log("regex false");
-                        //delete contact.lastName;
-                    }
-                
-                    console.log(contact);
-                };*/
-
-                /*lastName.addEventListener("change", function() {
-                    console.log(lastName.value);
-                });
-
-                address.addEventListener("change", function() {
-                    console.log(address.value);
-                });
-                
-                city.addEventListener("change", function() {
-                    console.log(city.value);
-                });
-
-                eMail.addEventListener("change", function() {
-                    console.log(eMail.value);
-                });*/
-
                 const ajouterLeChampDsContact = (champ, regex) => {
                     if (regex.test(champ.value)) {
-                        //document.querySelector("p[id$=ErrorMsg]").textContent = "";
                         champ.nextElementSibling.textContent = "";
                         console.log("le champ " + champ.id + " est renseigné correctement");
                         contact[champ.name] = champ.value;
                         console.log(contact);
                     } else {
-                        //document.querySelector("p[id$=ErrorMsg").textContent = "format incorrect";
                         champ.nextElementSibling.textContent = "format incorrect";
                         champ.value = "";
                         console.log(champ.value);
@@ -279,116 +211,7 @@ function apiRecovery() {
                 validerForm(lastName, lastNameRegex);
                 validerForm(address, addressRegex);
                 validerForm(city, cityRegex);
-                validerForm(eMail, emailRegex);                  
-
-                /*let orderBtn = document.getElementById("order");
-
-                orderBtn.addEventListener("click", function() {
-                    if(onlyWordRegex.test(firstName.value) && onlyWordRegex.test(lastName.value) && emailRegex.test(eMail.value)) {
-                        contact[firstName.name] = firstName.value;
-                        contact[lastName.name] = lastName.value;
-                        //contact[email.name] = eMail.value;
-                    } else {
-                        console.log("regex faux");
-                    }
-                });*/
-
-                /*let validField = (elt, regex) => {
-                    return regex.test(elt.value);
-                }
-
-                firstName.addEventListener("change", function () {
-                    //let firstNameOk = validField(onlyWordRegex, firstName);
-                    //console.log(validField(onlyWordRegex, firstName));                    
-                    //let firstNameValue = firstName.value;
-                    if (onlyWordRegex.test(firstName.value)) {
-                        document.getElementById("firstNameErrorMsg").textContent = "";
-                    console.log("le champ "+firstName.id+" est renseigné correctement");
-                    contact[firstName.name] = firstName.value;
-                    console.log(contact);
-                    } else {
-                        document.getElementById("firstNameErrorMsg").textContent = "format incorrect";
-                    firstName.value = "";
-                    console.log(firstName.value);
-                    console.log("regex false");
-                    delete contact.firstName;
-                    console.log(contact);
-                    }
-                    //console.log(contact);
-                });
-
-                address.addEventListener("change", function () {
-                    //let firstNameOk = validField(onlyWordRegex, firstName);
-                    //console.log(validField(onlyWordRegex, firstName));                    
-                    //let firstNameValue = firstName.value;
-                    if (addressRegex.test(address.value)) {
-                        document.getElementById("addressErrorMsg").textContent = "";
-                    console.log("le champ "+address.id+" est renseigné correctement");
-                    contact[address.name] = address.value;
-                    console.log(contact);
-                    } else {
-                        document.getElementById("addressErrorMsg").textContent = "format incorrect";
-                        address.value = "";
-                    console.log(address.value);
-                    console.log("regex false");
-                    delete contact.address;
-                    console.log(contact);
-                    }
-                    //console.log(contact);
-                });*/
-
-
-                /*lastNameElt.addEventListener("change", function () {
-                    let lastNameOk = validField(onlyWordRegex, lastNameElt);
-                    let lastName = lastNameElt.value;
-                    if (lastNameOk) {
-                        document.getElementById("lastNameErrorMsg").textContent = "valeur non valide";
-                        lastName = "";
-                    } else {
-                        document.getElementById("lastNameErrorMsg").textContent = "";
-                        console.log("le champ nom est renseigné correctement");
-                    }
-                    console.log(contact);
-                });
-
-                addressElt.addEventListener("change", function () {
-                    let addressOk = validField(addressRegex, addressElt);
-                    let address = addressElt.value;
-                    if (addressOk) {
-                        document.getElementById("addressErrorMsg").textContent = "valeur non valide";
-                        address = "";
-                    } else {
-                        document.getElementById("addressErrorMsg").textContent = "";
-                        console.log("le champ adresse est renseigné correctement");
-                    }
-                });
-
-                cityElt.addEventListener("change", function () {
-                    let cityOk = validField(onlyWordRegex, cityElt);
-                    let city = cityElt.value;
-                    if (cityOk) {
-                        document.getElementById("cityErrorMsg").textContent = "valeur non valide";
-                        city = "";
-                    } else {
-                        document.getElementById("cityErrorMsg").textContent = "";
-                        console.log("le champ ville est renseigné correctement");
-                    }
-                });
-
-                eMailElt.addEventListener("change", function () {
-                    let eMailOk = validField(emailRegex, eMailElt);
-                    let email = eMailElt.value;
-                    if (eMailOk) {
-                        document.getElementById("emailErrorMsg").textContent = "";
-                        console.log("le champ email est renseigné correctement");
-                    } else {
-                        document.getElementById("emailErrorMsg").textContent = "adresse email non valide";
-                        email = "";
-                    }
-                });
-
-                console.log(contact);*/
-
+                validerForm(eMail, emailRegex);
 
             }
 
