@@ -135,7 +135,7 @@ function apiRecovery() {
                     deletePTag.setAttribute("value", "Supprimer");
                     cartItemContentSettingsDelete.appendChild(deletePTag);
 
-                    //deletion of a sofa when the "supprimer" the user clicks on supprimer
+                    //deletion of a sofa when the user clicks on supprimer
                     deletePTag.addEventListener("click", function () {
                         cartItems.splice([i], 1);
                         localStorage.setItem("cartArray", JSON.stringify(cartItems));
@@ -173,76 +173,170 @@ function apiRecovery() {
 
                 //Form control and sending
 
-                let onlyWordRegex = /[a-z\s\-]+/gi;
+                let onlyWordRegex = /^[a-z\s\-]+$/gi;
+                let lastNameRegex = /^[a-z\s\-]+$/gi;
                 //let firtNameRegex = /[a-z\s\-]+/gi;
-                let emailRegex = /^([\w-_#\.]+)@([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
-                let addressRegex = /[^\w\-\.,\s]{2,30}/;//attention voir regex nom : si caractère exclu présent entre 2et 30
+                let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
+                let addressRegex = /[\w\-\.,\s]{2,30}$/; 
+                let cityRegex = /^[a-z\s\-]+$/gi;
 
                 let contact = {
-                    firstName : "",
-                    lastName : ""
                 };
-                
 
-                let firstNameElt = document.getElementById("firstName");
-                let lastNameElt = document.getElementById("lastName");
-                let addressElt = document.getElementById("address");
-                let cityElt = document.getElementById("city");
-                let eMailElt = document.getElementById("email");
-           
-                const ajouterLeChampDsContact = (champ, regex) => {
-                    if (regex.test(champ.value)) {
-                    document.querySelector("p[id$=ErrorMsg]").textContent = "";
-                    console.log("le champ "+champ.id+" est renseigné correctement");
-                    contact[champ.name] = champ.value;
-                    console.log(champ.value);
-                    console.log(contact);
-                    } else {
-                    //document.getElementById(/*champ+*/"ErrorMsg").textContent = "valeur non valide";
-                    document.querySelector("p[id*=ErrorMsg").textContent = "valeur non valide";
-                    champ.value = "";
-                    console.log(champ.value);
-                    console.log("regex false");
-                    delete contact.champ;
-                    }};
-                    
-                    const validerForm = (elt, regex) => {
-                        elt.addEventListener("change", function() {
-                            ajouterLeChampDsContact(elt, regex);
-                        })
-                    };
+                //let form = document.querySelector("cart__order__form_question");
 
-                    validerForm(firstNameElt, onlyWordRegex);
-                    validerForm(lastNameElt, onlyWordRegex);
-                    //validerForm(addressElt, addressRegex);
-                    //validerForm(cityElt, onlyWordRegex);
-                    //validerForm(eMailElt, emailRegex);
-              
-                
-              
-                /*form.addEventListener("change", function() {
-                    console.log("test");
-                });*/
+                let firstName = document.getElementById("firstName");
+                let lastName = document.getElementById("lastName");
+                let address = document.getElementById("address");
+                let city = document.getElementById("city");
+                let eMail = document.getElementById("email");
 
-                /*firstNameElt.addEventListener("change", function () {
-                    let firstNameOk = validField(onlyWordRegex, firstNameElt);
-                    console.log(validField(onlyWordRegex, firstNameElt));                    
-                    let firstNameValue = firstNameElt.value;
-                    if (firstNameOk) {
-                        document.getElementById("firstNameErrorMsg").textContent = "valeur non valide";
-                        firstNameValue = "";
-                        delete contact.firstName;
+                //let test = onlyWordRegex.test(firstNameElt.value);
+                //console.log(test);
+                /*firstName.addEventListener("change", function() {
+                    validfirstName(this);
+                });
+
+                const validfirstName = function(valeurFirstName) {
+                    let testFirstName = onlyWordRegex.test(firstName.value);
+                    if (testFirstName) {
+                        document.querySelector("p[id$=ErrorMsg]").textContent = "";
+                        console.log("le champ "+firstName.id+" est renseigné correctement");
+                        contact[firstName.name] = firstName.value;
                         console.log(contact);
                     } else {
+                        document.querySelector("p[id*=ErrorMsg").textContent = "format incorrect";
+                        firstName.value = "";
+                        console.log(firstName.value);
+                        console.log("regex false");
+                        //delete contact.firstName;
+                    }
+
+                    console.log(contact);
+                };
+
+                lastName.addEventListener("change", function() {
+                    validlastName(this);
+                });
+
+                const validlastName = function(valeurLastName) {
+                    let testLastName = lastNameRegex.test(lastName.value);
+                    if (testLastName) {
+                        document.querySelector("p[id$=ErrorMsg]").textContent = "";
+                        console.log("le champ "+lastName.id+" est renseigné correctement");
+                        contact[lastName.name] = lastName.value;
+                        console.log(contact);
+                    } else {
+                        document.querySelector("p[id*=ErrorMsg").textContent = "format incorrect";
+                        lastN.value = "";
+                        console.log(lastName.value);
+                        console.log("regex false");
+                        //delete contact.lastName;
+                    }
+                
+                    console.log(contact);
+                };*/
+
+                /*lastName.addEventListener("change", function() {
+                    console.log(lastName.value);
+                });
+
+                address.addEventListener("change", function() {
+                    console.log(address.value);
+                });
+                
+                city.addEventListener("change", function() {
+                    console.log(city.value);
+                });
+
+                eMail.addEventListener("change", function() {
+                    console.log(eMail.value);
+                });*/
+
+                const ajouterLeChampDsContact = (champ, regex) => {
+                    if (regex.test(champ.value)) {
+                        //document.querySelector("p[id$=ErrorMsg]").textContent = "";
+                        champ.nextElementSibling.textContent = "";
+                        console.log("le champ " + champ.id + " est renseigné correctement");
+                        contact[champ.name] = champ.value;
+                        console.log(contact);
+                    } else {
+                        //document.querySelector("p[id$=ErrorMsg").textContent = "format incorrect";
+                        champ.nextElementSibling.textContent = "format incorrect";
+                        champ.value = "";
+                        console.log(champ.value);
+                        console.log("regex false");
+                        delete contact.champ;
+                    }
+                };
+
+                const validerForm = (elt, regex) => {
+                    elt.addEventListener("change", function () {
+                        ajouterLeChampDsContact(elt, regex);
+                    })
+                };
+                validerForm(firstName, onlyWordRegex);
+                validerForm(lastName, lastNameRegex);
+                validerForm(address, addressRegex);
+                validerForm(city, cityRegex);
+                validerForm(eMail, emailRegex);                  
+
+                /*let orderBtn = document.getElementById("order");
+
+                orderBtn.addEventListener("click", function() {
+                    if(onlyWordRegex.test(firstName.value) && onlyWordRegex.test(lastName.value) && emailRegex.test(eMail.value)) {
+                        contact[firstName.name] = firstName.value;
+                        contact[lastName.name] = lastName.value;
+                        //contact[email.name] = eMail.value;
+                    } else {
+                        console.log("regex faux");
+                    }
+                });*/
+
+                /*let validField = (elt, regex) => {
+                    return regex.test(elt.value);
+                }
+
+                firstName.addEventListener("change", function () {
+                    //let firstNameOk = validField(onlyWordRegex, firstName);
+                    //console.log(validField(onlyWordRegex, firstName));                    
+                    //let firstNameValue = firstName.value;
+                    if (onlyWordRegex.test(firstName.value)) {
                         document.getElementById("firstNameErrorMsg").textContent = "";
-                        console.log("le champ nom est renseigné correctement");                        
-                        //console.log(firstNameValue);
-                        contact.firstName = firstNameValue;
-                        //console.log(contact);
+                    console.log("le champ "+firstName.id+" est renseigné correctement");
+                    contact[firstName.name] = firstName.value;
+                    console.log(contact);
+                    } else {
+                        document.getElementById("firstNameErrorMsg").textContent = "format incorrect";
+                    firstName.value = "";
+                    console.log(firstName.value);
+                    console.log("regex false");
+                    delete contact.firstName;
+                    console.log(contact);
                     }
                     //console.log(contact);
                 });
-                
+
+                address.addEventListener("change", function () {
+                    //let firstNameOk = validField(onlyWordRegex, firstName);
+                    //console.log(validField(onlyWordRegex, firstName));                    
+                    //let firstNameValue = firstName.value;
+                    if (addressRegex.test(address.value)) {
+                        document.getElementById("addressErrorMsg").textContent = "";
+                    console.log("le champ "+address.id+" est renseigné correctement");
+                    contact[address.name] = address.value;
+                    console.log(contact);
+                    } else {
+                        document.getElementById("addressErrorMsg").textContent = "format incorrect";
+                        address.value = "";
+                    console.log(address.value);
+                    console.log("regex false");
+                    delete contact.address;
+                    console.log(contact);
+                    }
+                    //console.log(contact);
+                });*/
+
 
                 /*lastNameElt.addEventListener("change", function () {
                     let lastNameOk = validField(onlyWordRegex, lastNameElt);
