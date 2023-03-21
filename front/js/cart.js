@@ -4,6 +4,7 @@ let lastNameElt = document.getElementById("lastName");
 let addressElt = document.getElementById("address");
 let cityElt = document.getElementById("city");
 let eMailElt = document.getElementById("email");
+let orderBtn = document.getElementById("order");
 
 function cartRecovery() {
     fetch("http://localhost:3000/api/products/")
@@ -181,7 +182,6 @@ function cartRecovery() {
 
             }
 
-
         })
         //Error message when the API has not been reached 
         .catch(function (err) {
@@ -198,26 +198,15 @@ function formCheck() {
     let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
     let addressRegex = /[\w\-\.,\s]+$/;
     let cityRegex = /^[a-z\s\-]+$/gi;
-   
-    /*let contact = {
-       firstName : "", 
-       lastName: "",
-       address: "",
-       city: "",
-       email: ""
-    };*/
-   
+      
     const formCompleteCheck = (champ, regex) => {
         champ.addEventListener("change", function() {
         if (regex.test(champ.value)) {
             champ.nextElementSibling.textContent = "";
             console.log("le champ " + champ.id + " est renseigné correctement");
-            //contact[champ.name] = champ.value;
-            //console.log(contact);
         } else {
             champ.nextElementSibling.textContent = "format incorrect";
             champ.value = "";
-            //console.log(champ.value);
             console.log("regex " + champ.name + " false");
             delete contact.champ;
         }
@@ -236,15 +225,16 @@ cartRecovery();
 
 formCheck();
 
-let orderBtn = document.getElementById("order");
-
-
 orderBtn.addEventListener("click", function (e) {
     e.preventDefault()
     
-    console.log(firstNameElt.value)
+    let cartItems = JSON.parse(localStorage.getItem("cartArray"));
+    console.table(cartItems);
+    function getItemsIds(item) {
+        return [item.shoppedSofaId]
+    }
 
-    if (firstNameElt.value != "" && lastNameElt.value!= "" && addressElt.value!= "" && cityElt.value!= "" && eMailElt.value!= "") {
+    if (firstNameElt.value != "" && lastNameElt.value!= "" && addressElt.value!= "" && cityElt.value!= "" && eMailElt.value!= "" && cartItems.length > 0) {
         let body = {
             contact: {
                 firstName: firstNameElt.value,
@@ -253,7 +243,7 @@ orderBtn.addEventListener("click", function (e) {
                 city: cityElt.value,
                 email: eMailElt.value
             },
-            products: []
+            products: cartItems.map(getItemsIds)
         }
 
 fetch("http://localhost:3000/api/products/order", {
@@ -271,15 +261,9 @@ fetch("http://localhost:3000/api/products/order", {
         }
     })
     .then(function (order) {
-
-        console.log(order);
-        console.log(body);
-
-        let cartItems = JSON.parse(localStorage.getItem("cartArray"));
-        //products.push(cartItems);
-       
-        //window.open("./confirmation.html?orderId=" + order.orderId);
-
+        window.location.href = "./confirmation.html?Id=" + order.orderId;
+        localStorage.clear();
+        console.log(localStorage);
     })
 
     //Error message when the API has not been reached 
@@ -287,30 +271,10 @@ fetch("http://localhost:3000/api/products/order", {
         console.log("erreur connexion API");
         alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
     });
-} else {
+} else if (firstNameElt.value == "" && lastNameElt.value== "" && addressElt.value== "" && cityElt.value== "" && eMailElt.value== "" &&cartItems.length > 0){
     alert("champ formulaire incomplet");
+} else {
+    alert("panier vide");
 }
     
 });
-
-
-//sending of contact and cart
-//function send(e) {
-//e.preventDefaul();
-/*let body = {
-    contact:{
-    firstName: document.getElementById("firstName"),
-    lastName: document.getElementById("lastName"),
-    address: document.getElementById("address"),
-    city: document.getElementById("city"),
-    email: document.getElementById("email")
-    },
-    products: []
-}*/
-
-
-
-
-
-
-//document.getElementById("order").addEventListener("submit", send);
