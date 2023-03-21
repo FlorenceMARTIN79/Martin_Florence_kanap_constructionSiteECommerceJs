@@ -1,4 +1,10 @@
 /*API call on 3000 port*/
+let firstNameElt = document.getElementById("firstName");
+let lastNameElt = document.getElementById("lastName");
+let addressElt = document.getElementById("address");
+let cityElt = document.getElementById("city");
+let eMailElt = document.getElementById("email");
+
 function cartRecovery() {
     fetch("http://localhost:3000/api/products/")
         .then(function (res) {
@@ -171,47 +177,7 @@ function cartRecovery() {
 
                 document.getElementById('totalPrice').textContent = subTotals;
 
-                //Form control and sending
-
-                let onlyWordRegex = /^[a-z\s\-]+$/gi;
-                let lastNameRegex = /^[a-z\s\-]+$/gi;
-                let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
-                let addressRegex = /[\w\-\.,\s]+$/;
-                let cityRegex = /^[a-z\s\-]+$/gi;
-
-                let contact = {};
-
-                let firstName = document.getElementById("firstName");
-                let lastName = document.getElementById("lastName");
-                let address = document.getElementById("address");
-                let city = document.getElementById("city");
-                let eMail = document.getElementById("email");
-
-                const ajouterLeChampDsContact = (champ, regex) => {
-                    if (regex.test(champ.value)) {
-                        champ.nextElementSibling.textContent = "";
-                        console.log("le champ " + champ.id + " est renseigné correctement");
-                        contact[champ.name] = champ.value;
-                        console.log(contact);
-                    } else {
-                        champ.nextElementSibling.textContent = "format incorrect";
-                        champ.value = "";
-                        console.log(champ.value);
-                        console.log("regex " + champ.name +" false");
-                        delete contact.champ;
-                    }
-                };
-
-                const validerForm = (elt, regex) => {
-                    elt.addEventListener("change", function () {
-                        ajouterLeChampDsContact(elt, regex);
-                    })
-                };
-                validerForm(firstName, onlyWordRegex);
-                validerForm(lastName, lastNameRegex);
-                validerForm(address, addressRegex);
-                validerForm(city, cityRegex);
-                validerForm(eMail, emailRegex);
+                
 
             }
 
@@ -224,23 +190,71 @@ function cartRecovery() {
         });
 }
 
-let orderBtn = document.getElementById("order");
+function formCheck() {
+    //Form control and sending
+   
+    let onlyWordRegex = /^[a-z\s\-]+$/gi;
+    let lastNameRegex = /^[a-z\s\-]+$/gi;
+    let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
+    let addressRegex = /[\w\-\.,\s]+$/;
+    let cityRegex = /^[a-z\s\-]+$/gi;
+   
+    /*let contact = {
+       firstName : "", 
+       lastName: "",
+       address: "",
+       city: "",
+       email: ""
+    };*/
+   
+    const formCompleteCheck = (champ, regex) => {
+        champ.addEventListener("change", function() {
+        if (regex.test(champ.value)) {
+            champ.nextElementSibling.textContent = "";
+            console.log("le champ " + champ.id + " est renseigné correctement");
+            //contact[champ.name] = champ.value;
+            //console.log(contact);
+        } else {
+            champ.nextElementSibling.textContent = "format incorrect";
+            champ.value = "";
+            //console.log(champ.value);
+            console.log("regex " + champ.name + " false");
+            delete contact.champ;
+        }
+    })
+    };
 
-let body = {
-    contact: {
-        firstName: document.getElementById("firstName"),
-        lastName: document.getElementById("lastName"),
-        address: document.getElementById("address"),
-        city: document.getElementById("city"),
-        email: document.getElementById("email")
-    },
-    products: []
-}
+    formCompleteCheck(firstNameElt, onlyWordRegex);
+    formCompleteCheck(lastNameElt, lastNameRegex);
+    formCompleteCheck(addressElt, addressRegex);
+    formCompleteCheck(cityElt, cityRegex);
+    formCompleteCheck(eMailElt, emailRegex);
+    
+   };
 
 cartRecovery();
 
-orderBtn.addEventListener("submit", function(e){
+formCheck();
+
+let orderBtn = document.getElementById("order");
+
+
+orderBtn.addEventListener("click", function (e) {
+    e.preventDefault()
     
+    console.log(firstNameElt.value)
+
+    if (firstNameElt.value != "" && lastNameElt.value!= "" && addressElt.value!= "" && cityElt.value!= "" && eMailElt.value!= "") {
+        let body = {
+            contact: {
+                firstName: firstNameElt.value,
+                lastName: lastNameElt.value,
+                address: addressElt.value,
+                city: cityElt.value,
+                email: eMailElt.value
+            },
+            products: []
+        }
 
 fetch("http://localhost:3000/api/products/order", {
         method: "POST",
@@ -248,7 +262,7 @@ fetch("http://localhost:3000/api/products/order", {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
     })
 
     .then(function (res) {
@@ -257,24 +271,28 @@ fetch("http://localhost:3000/api/products/order", {
         }
     })
     .then(function (order) {
-        
-        orderBtn.addEventListener("click", function (e) {
-                //e.preventDefault()
-                //Form control and sending
 
-                
-                
-                //window.open("./confirmation.html?orderId=" + order.orderId);
+        console.log(order);
+        console.log(body);
 
-            })
+        let cartItems = JSON.parse(localStorage.getItem("cartArray"));
+        //products.push(cartItems);
+       
+        //window.open("./confirmation.html?orderId=" + order.orderId);
 
-            //Error message when the API has not been reached 
-            .catch(function (err) {
-                console.log("erreur connexion API");
-                alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
-            });
+    })
+
+    //Error message when the API has not been reached 
+    .catch(function (err) {
+        console.log("erreur connexion API");
+        alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
     });
-})
+} else {
+    alert("champ formulaire incomplet");
+}
+    
+});
+
 
 //sending of contact and cart
 //function send(e) {
