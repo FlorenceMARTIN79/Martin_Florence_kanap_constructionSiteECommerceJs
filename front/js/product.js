@@ -110,11 +110,11 @@ function apiRecovery() {
 
 
                 } else if (colorControl) {
-                    alert("Merci de renseigner la quantité");
+                    alert("Merci de renseigner une quantité comprise entre 1 et 100");
                 } else if (quantityControl) {
                     alert("Merci de choisir une couleur");
                 } else {
-                    alert("Merci de renseigner la couleur et la quantité");
+                    alert("Merci de renseigner la couleur et une quantité comprise entre 1 et 100");
                 }
 
 

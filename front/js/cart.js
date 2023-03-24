@@ -271,7 +271,7 @@ fetch("http://localhost:3000/api/products/order", {
         console.log("erreur connexion API");
         alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
     });
-} else if (firstNameElt.value == "" && lastNameElt.value== "" && addressElt.value== "" && cityElt.value== "" && eMailElt.value== "" &&cartItems.length > 0){
+} else if (cartItems.length > 0 && firstNameElt.value == "" || lastNameElt.value== "" || addressElt.value== ""|| cityElt.value== "" || eMailElt.value== ""){
     alert("champ formulaire incomplet");
 } else {
     alert("panier vide");
