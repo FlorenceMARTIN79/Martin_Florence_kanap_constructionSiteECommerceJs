@@ -133,14 +133,13 @@ function cartRecovery() {
                     cartItemContentSettingsQuantity.appendChild(quantityInput);
 
                     const cartItemContentSettingsDelete = document.createElement("div");
-                    cartItemContentSettingsDelete.setAttribute("class", "cart__item,,content_settings__delete");
-                    cartItemContentSettingsQuantity.appendChild(cartItemContentSettingsDelete);
+                    cartItemContentSettingsDelete.setAttribute("class", "cart__item__content__settings__delete");
+                    cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
 
-                    const deletePTag = document.createElement("input");
+                    const deletePTag = document.createElement("p");
                     deletePTag.setAttribute("class", "deleteItem");
-                    deletePTag.setAttribute("type", "button");
-                    deletePTag.setAttribute("value", "Supprimer");
                     cartItemContentSettingsDelete.appendChild(deletePTag);
+                    deletePTag.textContent = "Supprimer";
 
                     //deletion of a sofa when the user clicks on supprimer
                     deletePTag.addEventListener("click", function () {
@@ -178,8 +177,6 @@ function cartRecovery() {
 
                 document.getElementById('totalPrice').textContent = subTotals;
 
-                
-
             }
 
         })
@@ -192,25 +189,27 @@ function cartRecovery() {
 
 function formCheck() {
     //Form control and sending
-   
+
+    //Regexp used to check the values of the fields of the form
     let onlyWordRegex = /^[a-z\s\-]+$/gi;
     let lastNameRegex = /^[a-z\s\-]+$/gi;
     let emailRegex = /^([\w-_#\.]+)@{1}([\w-_#\/]+)\.{1}([a-z]{2,10})$/; //first a letter, number, - or . as long as needed ; then @ ; then letter, number or - as long as needed ; then . ; then from 2 to 10 letters only at the end of the address
     let addressRegex = /[\w\-\.,\s]+$/;
     let cityRegex = /^[a-z\s\-]+$/gi;
-      
+
+    //function used to check the fields of the form
     const formCompleteCheck = (champ, regex) => {
-        champ.addEventListener("change", function() {
-        if (regex.test(champ.value)) {
-            champ.nextElementSibling.textContent = "";
-            console.log("le champ " + champ.id + " est renseigné correctement");
-        } else {
-            champ.nextElementSibling.textContent = "format incorrect";
-            champ.value = "";
-            console.log("regex " + champ.name + " false");
-            delete contact.champ;
-        }
-    })
+        champ.addEventListener("change", function () {
+            if (regex.test(champ.value)) {
+                champ.nextElementSibling.textContent = "";
+                console.log("le champ " + champ.id + " est renseigné correctement");
+            } else {
+                champ.nextElementSibling.textContent = "format incorrect";
+                champ.value = "";
+                console.log("regex " + champ.name + " false");
+                delete contact.champ;
+            }
+        })
     };
 
     formCompleteCheck(firstNameElt, onlyWordRegex);
@@ -218,23 +217,25 @@ function formCheck() {
     formCompleteCheck(addressElt, addressRegex);
     formCompleteCheck(cityElt, cityRegex);
     formCompleteCheck(eMailElt, emailRegex);
-    
-   };
+
+};
 
 cartRecovery();
 
 formCheck();
 
+//check of the order before its sending via the orderBtn
 orderBtn.addEventListener("click", function (e) {
     e.preventDefault()
-    
+
     let cartItems = JSON.parse(localStorage.getItem("cartArray"));
     console.table(cartItems);
+
     function getItemsIds(item) {
         return [item.shoppedSofaId]
     }
 
-    if (firstNameElt.value != "" && lastNameElt.value!= "" && addressElt.value!= "" && cityElt.value!= "" && eMailElt.value!= "" && cartItems.length > 0) {
+    if (firstNameElt.value != "" && lastNameElt.value != "" && addressElt.value != "" && cityElt.value != "" && eMailElt.value != "" && cartItems.length > 0) {
         let body = {
             contact: {
                 firstName: firstNameElt.value,
@@ -246,35 +247,35 @@ orderBtn.addEventListener("click", function (e) {
             products: cartItems.map(getItemsIds)
         }
 
-fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body),
-    })
+        fetch("http://localhost:3000/api/products/order", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body),
+            })
 
-    .then(function (res) {
-        if (res.ok) {
-            return res.json();
-        }
-    })
-    .then(function (order) {
-        window.location.href = "./confirmation.html?Id=" + order.orderId;
-        localStorage.clear();
-        console.log(localStorage);
-    })
+            .then(function (res) {
+                if (res.ok) {
+                    return res.json();
+                }
+            })
+            .then(function (order) {
+                window.location.href = "./confirmation.html?Id=" + order.orderId;
+                localStorage.clear();
+                console.log(localStorage);
+            })
 
-    //Error message when the API has not been reached 
-    .catch(function (err) {
-        console.log("erreur connexion API");
-        alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
-    });
-} else if (cartItems.length > 0 && firstNameElt.value == "" || lastNameElt.value== "" || addressElt.value== ""|| cityElt.value== "" || eMailElt.value== ""){
-    alert("champ formulaire incomplet");
-} else {
-    alert("panier vide");
-}
-    
+            //Error message when the API has not been reached 
+            .catch(function (err) {
+                console.log("erreur connexion API");
+                alert("Votre page web n'a pas pu charger correctement, merci de vérifier votre connexion et de réessayer plus tard");
+            });
+    } else if (cartItems.length > 0 && firstNameElt.value == "" || lastNameElt.value == "" || addressElt.value == "" || cityElt.value == "" || eMailElt.value == "") {
+        alert("champ formulaire incomplet");
+    } else {
+        alert("panier vide");
+    }
+
 });
